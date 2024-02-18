@@ -19,7 +19,25 @@ app.use(cors());
 // Convertir body a objeto js. Parsear los datos a un objeto js.
 app.use(express.json());
 
-// Crear rutas
+// Crear rutas (temporal -> de prueba)
+app.get("/probando", (req, res) => {
+    console.log("Se ha ejecutado el endpoint probando");
+    return res.status(200).json([{
+        nombre: "ProbandoJson",
+        autor: "Sebastian Hernandez"
+    },
+    {
+        nombre: "ProbandoJson",
+        autor: "Arthur Morgan"
+    }]); //devolver algo para la peticion, status puede ser el código http que se desea usar (200 -> exito)
+}) //req es la request y res es la respuesta de la ruta
+
+app.get("/", (req, res) => {
+    console.log("Se ha ejecutado el endpoint probando");
+    return res.status(200).send(`
+        <h1> Funcionando API </h1>
+    `); //devolver algo para la peticion, status puede ser el código http que se desea usar (200 -> exito)
+}) //req es la request y res es la respuesta de la ruta
 
 // Crear servidor y escuchar peticiones http
 app.listen(puerto, ()=> {
