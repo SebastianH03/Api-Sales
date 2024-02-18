@@ -19,7 +19,17 @@ app.use(cors());
 // Convertir body a objeto js. Parsear los datos a un objeto js.
 app.use(express.json());
 
-// Crear rutas (temporal -> de prueba)
+// RUTAS
+const ruta_stock = require("./routes/stock");
+
+// Cargar Rutas
+
+//Ruta de stock
+app.use("/stock", ruta_stock);
+
+
+
+// Crear rutas (temporal -> de prueba) fuerza bruta
 app.get("/probando", (req, res) => {
     console.log("Se ha ejecutado el endpoint probando");
     return res.status(200).json([{
