@@ -9,4 +9,9 @@ const StockController = require("../controllers/stock");
 router.get("/ruta-stock", StockController.controller);
 router.get("/stock-prueba", StockController.stock_prueba);
 
+//RUTAS DE CRUD
+
+//guardar
+router.post("/crear", StockController.create);
+
 module.exports = router;

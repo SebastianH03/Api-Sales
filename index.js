@@ -17,7 +17,8 @@ const puerto = 3900;
 app.use(cors());
 
 // Convertir body a objeto js. Parsear los datos a un objeto js.
-app.use(express.json());
+app.use(express.json()); //Recibir datos con content-type app/json
+app.use(express.urlencoded({extended:true})); //datos que llegan en urlencoded los convierte a json (formularios normales)
 
 // RUTAS
 const ruta_stock = require("./routes/stock");
@@ -26,7 +27,6 @@ const ruta_stock = require("./routes/stock");
 
 //Ruta de stock
 app.use("/stock", ruta_stock);
-
 
 
 // Crear rutas (temporal -> de prueba) fuerza bruta
