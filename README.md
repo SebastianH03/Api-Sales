@@ -11,6 +11,7 @@ Para la implementación del proyecto y colaboradores, es necesario instalar los 
 1. MongoDB community Server, es necesario para activar el servicio de mongoDB, es decir el demonio mongod.exe. Link: [MongoDB community Server](https://www.mongodb.com/try/download/community)
 2. Mongo Compass, es la interfaz visual de MongoDB (opcional pero facilita el trabajo). Link: [MongoDB compass](https://www.mongodb.com/products/tools/compass)
 3. Postman, es la herramienta que usaremos para las pruebas en la API rest. Link: [Postman](https://www.postman.com/downloads/)
+4. NodeJS, es el entorno de ejecución para la capa de servidor. Link: [NodeJS](https://nodejs.org/en)
 
 El resto de dependencias ya se encuentran incluídas en el proyecto de git, se pueden consultar en el archivo package.json
 
