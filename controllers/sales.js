@@ -223,7 +223,6 @@ const editar = (req, res) => {
 
 
 module.exports = {
-    controller,
     //stock_prueba,
     create,
     read,
