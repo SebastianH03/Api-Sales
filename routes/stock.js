@@ -27,5 +27,7 @@ router.delete("/borrar/:id", StockController.del);
 router.delete("/nombre/:nombre", StockController.delByName);
 
 //editar
+router.put("/editar/:id", StockController.editar);
+
 
 module.exports = router;

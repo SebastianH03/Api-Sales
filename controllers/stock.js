@@ -181,13 +181,13 @@ const del = (req, res) => {
             status: "success",
             producto: productoBorrado,
             mensaje: "Objeto eliminado correctamente"
-        })
+        });
     }).catch( error => {
         return res.status(500).json({
             status: "error",
             mensaje: "Ha ocurrido un error",
             error: error.message
-        })
+        });
     })
 }
 
@@ -196,6 +196,55 @@ const delByName = (req, res) => {
     let product_id = req.params.id_product;
     Stock.findOneAnd
 }
+
+const editar = (req, res) => {
+    console.log("Se ha ejecutado el método de prueba editar de Stock")
+    
+    // Recoger producto a editar
+    let id = req.params.id;
+
+    // Recoger los nuevos datos del body
+    let parametros = req.body;
+
+    //validar datos
+    try{
+        //Que no estén vacíos
+        let validar_quantity = !validator.isEmpty(parametros.quantity);
+        let validar_product = !validator.isEmpty(parametros.product) 
+            && validator.isLength(parametros.product, {min: 3, max:20}); //comprueba el tamaño
+
+        if(!validar_product || !validar_quantity){
+            throw new Error("No se ha completado todos los campos");
+        }
+    }catch(error){
+        return res.status(400).json({
+            status: "error",
+            mensaje: "Faltan datos por enviar"
+        })
+    }
+
+    //buscar y actualizar artículo
+    Stock.findOneAndUpdate({_id: id}, parametros).then( producto => {
+        if(!producto){
+            return res.status(404).json({
+                status: "error",
+                mensaje: "No se ha encontrado el producto"
+            });
+        }
+        return res.status(200).json({
+            status: "success",
+            producto: producto,
+            mensaje: "Objeto editado correctamente"
+        });
+    }).catch( error => {
+        return res.status(500).json({
+            status: "error",
+            mensaje: "Ha ocurrido un error",
+            error: error.message
+        });
+    })
+}
+
 
 
 module.exports = {
@@ -206,5 +255,6 @@ module.exports = {
     uno,
     name,
     del,
-    delByName
+    delByName,
+    editar
 }
