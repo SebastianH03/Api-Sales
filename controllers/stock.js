@@ -76,8 +76,42 @@ const create = (req, res) => {
         });  
 }
 
+const read = (req, res) =>{
+    console.log("Se ha ejecutado el método de prueba read de stock")
+    let consulta = Stock.find({}).then( producto => {
+        if(!producto){
+            return res.status(400).json({
+                status: "error",
+                mensaje: "No se encontró el producto"
+            })
+        }
+
+        return res.status(200).json({
+            status: "Success",
+            producto,
+            mensaje: "Producto encontrado correctamente"
+        }); 
+    })
+    .catch(error => {
+        return res.status(500).json({
+            status: "error",
+            mensaje: "ha ocurrido un error",
+            error: error.message
+        })
+    })
+    return consulta
+}
+
+const del = (req, res) => {
+    console.log("Se ha ejecutado el método de prueba delete de stock")
+    let product_id = req.parametros.id;
+    Stock.findOneAnd
+}
+
+
 module.exports = {
     controller,
     stock_prueba,
-    create
+    create,
+    read
 }

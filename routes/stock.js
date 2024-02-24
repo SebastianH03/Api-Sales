@@ -14,4 +14,7 @@ router.get("/stock-prueba", StockController.stock_prueba);
 //guardar
 router.post("/crear", StockController.create);
 
+//leer
+router.get("/leer", StockController.read);
+
 module.exports = router;
