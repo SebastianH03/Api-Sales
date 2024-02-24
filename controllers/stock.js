@@ -9,19 +9,19 @@ const controller = (req, res) => {
     })
 }
 
-const stock_prueba = (req, res) => {
+// const stock_prueba = (req, res) => {
 
-    console.log("Se ha ejecutado el método de prueba de stock");
-    return res.status(200).json([{
-        id: "ajjfhjr211",
-        nombre: "Cepillo",
-        categoria: ["Limpieza", "Salud"]
-    },
-    {
-        nombre: "ProbandoJson",
-        id: "jtyuj67tyjkytukjyukj"
-    }]);
-}
+//     console.log("Se ha ejecutado el método de prueba de stock");
+//     return res.status(200).json([{
+//         id_product: "ajjfhjr211",
+//         nombre: "Cepillo",
+//         categoria: ["Limpieza", "Salud"]
+//     },
+//     {
+//         nombre: "ProbandoJson",
+//         id_product: "jtyuj67tyjkytukjyukj"
+//     }]);
+// }
 
 const create = (req, res) => {
     
@@ -32,12 +32,11 @@ const create = (req, res) => {
     try{
 
         //Que no estén vacíos
-        let validar_id = !validator.isEmpty(parametros.id);
         let validar_quantity = !validator.isEmpty(parametros.quantity);
         let validar_product = !validator.isEmpty(parametros.product) 
             && validator.isLength(parametros.product, {min: 3, max:20}); //comprueba el tamaño
 
-        if(!validar_id || !validar_product || !validar_quantity){
+        if(!validar_product || !validar_quantity){
             throw new Error("No se ha completado todos los campos");
         }
 
@@ -76,9 +75,18 @@ const create = (req, res) => {
         });  
 }
 
+//Lectura general
 const read = (req, res) =>{
     console.log("Se ha ejecutado el método de prueba read de stock")
-    let consulta = Stock.find({}).then( producto => {
+
+    //Organizar la consulta de mayor a menor:
+    const orden = req.query.orden || 'asc';
+    
+    //Objeto de ordenamiento -> Cantidad en este caso
+    const ordenamiento = {quantity: orden === 'desc' ? -1: 1};
+
+    //Objeto Stock se le encadenan varios métodos
+    let consulta = Stock.find({}).sort(ordenamiento).then( producto => {
         if(!producto){
             return res.status(400).json({
                 status: "error",
@@ -102,16 +110,101 @@ const read = (req, res) =>{
     return consulta
 }
 
+
+//end point para extraer un sólo producto
+const uno = (req, res) => {
+    console.log("Se ha ejecutado el método de prueba obtener artículo de stock")
+    //recoger id por url
+    let id = req.params.id; //id propio de mongo
+    //buscar un articulo
+    Stock.findById(id).then( producto => {
+        if(!producto){
+            //si no existe devolver error
+            return res.status(404).json({
+                status: "error",
+                mensaje: "No se encontró el producto"
+            });
+        }
+        //si existe devolver resultado
+        return res.status(200).json({
+            status: "Success",
+            producto,
+            mensaje: "Producto encontrado correctamente"
+        });
+    })
+    .catch(error => {
+        return res.status(500).json({
+            status: "error",
+            mensaje: "ha ocurrido un error",
+            error: error.message
+        });
+    })
+}
+
+//Búsqueda según su nombre
+const name = (req, res) => {
+    let nombre = req.params.nombre;
+    Stock.findOne({product: nombre}).then(producto => {
+        if(!producto){
+            return res.status(404).json({
+                status:"error",
+                mensaje: "No se ha encontrado el producto"
+            });
+        }
+        return res.status(200).json({
+            status: "Success",
+            producto,
+            mensaje: "Encontrado correctamente"
+        });
+    }).catch(error => {
+        return res.status(500).json({
+            status: "error",
+            mensaje: "Ha ocurrido un error",
+            error: error.message
+        });
+    })
+}
+
+//Delete
 const del = (req, res) => {
     console.log("Se ha ejecutado el método de prueba delete de stock")
-    let product_id = req.parametros.id;
+    //recogemos el id para borrar
+    let id = req.params.id;
+    Stock.findOneAndDelete({_id: id}).then( productoBorrado => {
+        if(!productoBorrado){
+            return res.status(404).json({
+                status: "error",
+                mensaje: "No se ha encontrado el producto"
+            });
+        }
+        return res.status(200).json({
+            status: "success",
+            producto: productoBorrado,
+            mensaje: "Objeto eliminado correctamente"
+        })
+    }).catch( error => {
+        return res.status(500).json({
+            status: "error",
+            mensaje: "Ha ocurrido un error",
+            error: error.message
+        })
+    })
+}
+
+const delByName = (req, res) => {
+    console.log("Se ha ejecutado el método de prueba delete de stock")
+    let product_id = req.params.id_product;
     Stock.findOneAnd
 }
 
 
 module.exports = {
     controller,
-    stock_prueba,
+    //stock_prueba,
     create,
-    read
+    read,
+    uno,
+    name,
+    del,
+    delByName
 }

@@ -18,10 +18,6 @@ const { Schema, model } = require("mongoose"); //Esquemas y modelos para trabaja
 
 //Esquema del Stock
 const StockSchema = Schema({
-    id: {
-        type: String,
-        required: true
-    },
     product: {
         type: String,
         required: true
