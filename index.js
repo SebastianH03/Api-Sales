@@ -22,12 +22,12 @@ app.use(express.urlencoded({extended:true})); //datos que llegan en urlencoded l
 
 // RUTAS
 const ruta_stock = require("./routes/stock");
-
+const ruta_Users = require("./routes/users");
 // Cargar Rutas
 
 //Ruta de stock
 app.use("/stock", ruta_stock);
-
+app.use("/users", ruta_Users);
 
 // Crear rutas (temporal -> de prueba) fuerza bruta
 app.get("/probando", (req, res) => {
