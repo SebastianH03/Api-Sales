@@ -28,6 +28,12 @@ const ruta_stock = require("./routes/stock");
 //Ruta de stock
 app.use("/stock", ruta_stock);
 
+//ruta de usuario
+
+//ruta de proveedores
+
+//ruta de ventas
+
 
 // Crear rutas (temporal -> de prueba) fuerza bruta
 app.get("/probando", (req, res) => {
