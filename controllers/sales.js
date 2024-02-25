@@ -5,7 +5,7 @@ const Sales = require("../models/Sales");
 const create = (req, res) => {
     
     // Recoger parámetros por post a guardar
-    const parameters = req.body;
+    const parameters = req.body;    
 
     // Validar los datos
     try{
@@ -43,7 +43,7 @@ const create = (req, res) => {
             //Devolver resultado
             return res.status(200).json({
                 status: "Success",
-                stock: savedSale,
+                sales: savedSale,
                 mensaje: "Articulo guardado correctamente"
             });
         })
