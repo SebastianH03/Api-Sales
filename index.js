@@ -20,6 +20,26 @@ app.use(cors());
 app.use(express.json()); //Recibir datos con content-type app/json
 app.use(express.urlencoded({extended:true})); //datos que llegan en urlencoded los convierte a json (formularios normales)
 
+// Middleware
+const History = require('./models/History'); // Asegúrate de ajustar la ruta al archivo del modelo
+
+app.use(async (req, res, next) => {
+    const collection = req.url.split('/')[1]; // Extrae el nombre de la colección de la URL
+
+    const history = new History({
+        action: req.method + ' ' + req.url,
+        collection: collection,
+    });
+
+    try {
+        await history.save();
+        console.log('Acción guardada en el historial');
+    } catch (error) {
+        console.error('Error al guardar la acción en el historial:', error);
+    }
+
+    next();
+});
 // RUTAS
 const ruta_stock = require("./routes/stock");
 const ruta_Users = require("./routes/users");

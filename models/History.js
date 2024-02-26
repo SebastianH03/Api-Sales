@@ -1,20 +1,11 @@
-const { Schema, model } = require("mongoose"); 
+const mongoose = require('mongoose');
 
-//Esquema del historial.
+const HistorySchema = new mongoose.Schema({
+    action: String,
+    collection: String,
+    date: { type: Date, default: Date.now }
+});
 
-const HistorySchema = Schema({
-    date: {
-        type: Date,
-        required: true
-    },
-    action: {
-        type: String,
-        required: true
-    },
-    collection: {
-        type: String,
-        require: true
-    }
-})
+const History = mongoose.model('History', HistorySchema);
 
-module.exports = model("History", HistorySchema, "history")
+module.exports = History;
