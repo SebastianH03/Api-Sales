@@ -25,19 +25,23 @@ const ruta_stock = require("./routes/stock");
 const ruta_Users = require("./routes/users");
 const ruta_sales = require("./routes/sales");
 const ruta_suppliers = require("./routes/suppliers");
+const ruta_history = require("./routes/history");
 // Cargar Rutas
 
 //Ruta de stock
 app.use("/stock", ruta_stock);
-app.use("/users", ruta_Users);
-app.use("/sales", ruta_sales);
-//ruta de usuario
 
-//ruta de proveedores
+//ruta de usuario
+app.use("/users", ruta_Users);
+
+//Ruta de proveedores
 app.use("/suppliers", ruta_suppliers);
 
-//ruta de ventas
+//Ruta de ventas
+app.use("/sales", ruta_sales);
 
+//Ruta de historial
+app.use("/history", ruta_history);
 
 // Crear rutas (temporal -> de prueba) fuerza bruta
 app.get("/probando", (req, res) => {
