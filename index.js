@@ -27,7 +27,7 @@ app.use(async (req, res, next) => {
     const collection = req.url.split('/')[1]; // Extrae el nombre de la colección de la URL
 
     const history = new History({
-        action: req.method + ' ' + req.url,
+        action: req.method,
         collection: collection,
     });
 

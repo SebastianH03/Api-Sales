@@ -117,8 +117,8 @@ const uno = (req, res) => {
 
 //Búsqueda según su nombre
 const name = (req, res) => {
-    let nombre = req.params.salesman;
-    Sales.findOne({salesman: nombre}).then(sale => {
+    let name = req.params.salesman;
+    Sales.findOne({salesman: name}).then(sale => {
         if(!sale){
             return res.status(404).json({
                 status:"error",

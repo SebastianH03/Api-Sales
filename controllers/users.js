@@ -59,8 +59,8 @@ const create = (req, res) => {
 }
 
 const read = (req, res) =>{
-    let consulta = Users.find({}).then( producto => {
-        if(!producto){
+    let consulta = Users.find({}).then( product => {
+        if(!product){
             return res.status(400).json({
                 status: "error",
                 mensaje: "No se encontró el producto"
@@ -69,7 +69,7 @@ const read = (req, res) =>{
 
         return res.status(200).json({
             status: "Success",
-            producto,
+            product,
             mensaje: "Producto encontrado correctamente"
         }); 
     })
@@ -83,10 +83,10 @@ const read = (req, res) =>{
     return consulta
 }
 
-const del = (req, res) => {
+const del_by_id = (req, res) => {
     let id = req.params.id;
-    Users.findOneAndDelete({_id:id}).then( usuarioBorrado => {
-        if(!usuarioBorrado){
+    Users.findOneAndDelete({_id:id}).then( deletedUser => {
+        if(!deletedUser){
             return res.status(404).json({
                 status: "Error",
                 mensaje: "No se encontro el Usuario"
@@ -95,7 +95,7 @@ const del = (req, res) => {
 
         return res.status(200).json({
             status: "Succes",
-            usuario: usuarioBorrado,
+            user: deletedUser,
             message: "Usuario borrado correctamente"
         });
     }).catch(error => {
@@ -107,7 +107,7 @@ const del = (req, res) => {
     })
 }
 
-const edit = (req, resp) => {
+const edit_by_id = (req, resp) => {
     let id = req.params.id;
     let parametros = req.body;
 
@@ -115,10 +115,10 @@ const edit = (req, resp) => {
     try{
 
         //Que no estén vacíos
-        let validar_nombre = !validator.isEmpty(parametros.nombre);
+        let validar_nombre = !validator.isEmpty(parametros.name);
         let validar_password = !validator.isEmpty(parametros.password) 
             //&& validator.isLength(parametros.product, {min: 3, max:20}); //comprueba el tamaño
-        let validar_rol = !validator.isEmpty(parametros.rol); 
+        let validar_rol = !validator.isEmpty(parametros.role); 
             
 
         if( !validar_nombre || !validar_password || ! validar_rol){
@@ -132,8 +132,8 @@ const edit = (req, resp) => {
         });
     }
 
-    Users.findOneAndUpdate({_id:id}, parametros).then( usuario => {
-        if(!usuario){
+    Users.findOneAndUpdate({_id:id}, parametros).then( editUser => {
+        if(!editUser){
             return resp.status(404).json({
                 status: "Error",
                 mensaje: "No se ha encontrado el producto"
@@ -142,7 +142,7 @@ const edit = (req, resp) => {
 
         return resp.status(200).json({
             status: "Succes",
-            usuario: usuario,
+            user: editUser,
             mensaje: "Usuario editado correctamente"
         });
 
@@ -162,6 +162,6 @@ const edit = (req, resp) => {
 module.exports = {
     create,
     read,
-    del,
-    edit
+    del_by_id,
+    edit_by_id
 }

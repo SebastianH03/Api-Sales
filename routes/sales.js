@@ -8,22 +8,22 @@ const SalesController = require("../controllers/sales");
 //RUTAS DE CRUD
 
 //guardar
-router.post("/crear", SalesController.create);
+router.post("", SalesController.create);
 
 //leer
-router.get("/leer", SalesController.read);
+router.get("", SalesController.read);
 
-router.get("/venta/:id", SalesController.uno);
+router.get("/:id", SalesController.uno);
 
-router.get("/nombre/:nombre", SalesController.name);
+router.get("/name/:nombre", SalesController.name);
 
 //Borrar
 
-router.delete("/borrar/:id", SalesController.del);
-router.delete("/nombre/:nombre", SalesController.delByName);
+router.delete("/:id", SalesController.del);
+router.delete("/name/:nombre", SalesController.delByName);
 
 //editar
-router.put("/editar/:id", SalesController.editar);
+router.put("/:id", SalesController.editar);
 
 
 module.exports = router;

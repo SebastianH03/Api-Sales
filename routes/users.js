@@ -9,15 +9,15 @@ const UsersController = require("../controllers/users");
 //RUTAS DE CRUD
 
 //guardar
-router.post("/crear", UsersController.create);
+router.post("", UsersController.create);
 
 //leer
-router.get("/leer", UsersController.read);
+router.get("", UsersController.read);
 
 //Borra
-router.delete("/borrar/:id", UsersController.del);
+router.delete("/:id", UsersController.del_by_id);
 
 //Editar
-router.put("/editar/:id", UsersController.edit);
+router.put("/:id", UsersController.edit_by_id);
 
 module.exports = router;

@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose"); //Esquemas y modelos para trabaja
 
 //Esquema del Stock
 const UserSchema = Schema({
-    nombre: {
+    name: {
         type: String,
         required: true
     },
@@ -11,7 +11,7 @@ const UserSchema = Schema({
         type: String,
         required: true
     },
-    rol: {
+    role: {
         type: String,
         require: true
     }

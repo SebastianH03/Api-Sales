@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose"); //Esquemas y modelos para trabaja
 
 //Esquema del registro de ventas
 const SalesSchema = Schema({
-    products: [{
+    product: [{
         type: String,
     }],
     salesman: {
