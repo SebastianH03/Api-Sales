@@ -1,7 +1,6 @@
-const { Schema, model } = require("mongoose"); //Esquemas y modelos para trabajar con los documentos de la colección Stock.
+const { Schema, model } = require("mongoose");
 
 
-//Esquema del Stock
 const UserSchema = Schema({
     name: {
         type: String,
@@ -15,7 +14,6 @@ const UserSchema = Schema({
         type: String,
         require: true
     }
-}) //Esquema
+})
 
 module.exports = model("Users", UserSchema, "users")
-                    // Primero va el nombre referido, luego el esquema para importar y finalmente la colección que se tendrá en cuenta

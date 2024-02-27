@@ -5,34 +5,21 @@ const Users = require("../models/Users");
 
 
 const create = (req, res) => {
-    
-    // Recoger parámetros por post a guardar
     const parametros = req.body;
-
-    // Validar los datos
     try{
-
-        //Que no estén vacíos
-        let validar_nombre = !validator.isEmpty(parametros.nombre);
+        let validar_nombre = !validator.isEmpty(parametros.name);
         let validar_password = !validator.isEmpty(parametros.password) 
-            //&& validator.isLength(parametros.product, {min: 3, max:20}); //comprueba el tamaño
-        let validar_rol = !validator.isEmpty(parametros.rol); 
-            
-
+        let validar_rol = !validator.isEmpty(parametros.role); 
         if( !validar_nombre || !validar_password || ! validar_rol){
             throw new Error("No se ha completado todos los campos");
         }
-
     }catch(error){
         return res.status(400).json({
             status: "error",
             mensaje: "Faltan datos por enviar" + error
         })
     }
-    // Crear y asignar el objeto a guardar
     const user = new Users(parametros);
-
-    // Guardar el artículo en la base de datos
     user.save()
         .then(usuarioGuardado => {
             if(!usuarioGuardado){
@@ -41,8 +28,6 @@ const create = (req, res) => {
                     mensaje: "No se ha guardado el usuario"
                 });
             }
-
-            //Devolver resultado
             return res.status(200).json({
                 status: "Success",
                 user: usuarioGuardado,
@@ -63,20 +48,20 @@ const read = (req, res) =>{
         if(!product){
             return res.status(400).json({
                 status: "error",
-                mensaje: "No se encontró el producto"
+                mensaje: "No se encontró el usuario"
             })
         }
 
         return res.status(200).json({
             status: "Success",
             product,
-            mensaje: "Producto encontrado correctamente"
+            mensaje: "Usuario encontrado correctamente"
         }); 
     })
     .catch(error => {
         return res.status(500).json({
-            status: "error",
-            mensaje: "ha ocurrido un error",
+            status: "Error",
+            mensaje: "Ha ocurrido un error",
             error: error.message
         })
     })
@@ -110,14 +95,9 @@ const del_by_id = (req, res) => {
 const edit_by_id = (req, resp) => {
     let id = req.params.id;
     let parametros = req.body;
-
-    // Validar los datos
     try{
-
-        //Que no estén vacíos
         let validar_nombre = !validator.isEmpty(parametros.name);
         let validar_password = !validator.isEmpty(parametros.password) 
-            //&& validator.isLength(parametros.product, {min: 3, max:20}); //comprueba el tamaño
         let validar_rol = !validator.isEmpty(parametros.role); 
             
 

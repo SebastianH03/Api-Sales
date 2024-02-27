@@ -162,7 +162,7 @@ const edit_by_id = (req, res) => {
     let parameters = req.body;
     try{
         const isNameValid = !validator.isEmpty(parameters.name) && validator.isLength(parameters.name, {min: 1, max: 15});
-        const isProductValid = !validator.isEmpty(parameters.product) && validator.isLength(parameters.product, {min: 3, max: 15});
+        const isProductValid = !validator.isEmpty(parameters.product) && validator.isLength(parameters.product, {min: 3, max: 30});
         const isAddressValid = !validator.isEmpty(parameters.address) && validator.isLength(parameters.address, {min: 5, max: 40});
         const isTelephoneValid = !validator.isEmpty(parameters.telephone) && validator.isLength(parameters.telephone, {min: 1, max: 20});
         if(!isNameValid || !isProductValid || !isAddressValid || !isTelephoneValid){

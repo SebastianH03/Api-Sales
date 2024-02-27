@@ -1,21 +1,13 @@
-//dependencias
 const validator = require("validator");
 const Sales = require("../models/Sales");
 
 const create = (req, res) => {
-    
-    // Recoger parámetros por post a guardar
     const parameters = req.body;    
-
-    // Validar los datos
     try{
-
-        //Que no estén vacíos
         let val_salesman = !validator.isEmpty(parameters.salesman) 
-            && validator.isLength(parameters.salesman, {min: 3, max:20}); //comprueba el tamaño
+            && validator.isLength(parameters.salesman, {min: 3, max:20});
         let val_client = !validator.isEmpty(parameters.client) 
-            && validator.isLength(parameters.client, {min: 3, max:20}); //comprueba el tamaño
-
+            && validator.isLength(parameters.client, {min: 3, max:20});
         if(!val_salesman || !val_client){
             throw new Error("No se ha completado todos los campos");
         }
@@ -25,12 +17,7 @@ const create = (req, res) => {
             mensaje: "Faltan datos por enviar"
         })
     }
-
-
-    // Crear y asignar el objeto a guardar
     const sales = new Sales(parameters);
-
-    // Guardar la venta en la base de datos
     sales.save()
         .then(savedSale => {
             if(!savedSale){
@@ -39,8 +26,6 @@ const create = (req, res) => {
                     mensaje: "No se ha guardado el producto"
                 });
             }
-
-            //Devolver resultado
             return res.status(200).json({
                 status: "Success",
                 sales: savedSale,
@@ -85,21 +70,17 @@ const read = (req, res) =>{
 }
 
 
-//end point para extraer un sólo producto
-const uno = (req, res) => {
+//Lectura por ID
+const read_by_id = (req, res) => {
     console.log("Se ha ejecutado el método de prueba obtener artículo de sales")
-    //recoger id por url
-    let id = req.params.id; //id propio de mongo
-    //buscar un articulo
+    let id = req.params.id;
     Sales.findById(id).then( sale => {
         if(!sale){
-            //si no existe devolver error
             return res.status(404).json({
                 status: "error",
                 mensaje: "No se encontró la venta"
             });
         }
-        //si existe devolver resultado
         return res.status(200).json({
             status: "Success",
             sale,
@@ -115,9 +96,9 @@ const uno = (req, res) => {
     })
 }
 
-//Búsqueda según su nombre
-const name = (req, res) => {
-    let name = req.params.salesman;
+//Lectura por nombre
+const read_by_name = (req, res) => {
+    let name = req.params.name;
     Sales.findOne({salesman: name}).then(sale => {
         if(!sale){
             return res.status(404).json({
@@ -140,9 +121,8 @@ const name = (req, res) => {
 }
 
 //Delete
-const del = (req, res) => {
+const del_by_id = (req, res) => {
     console.log("Se ha ejecutado el método de prueba delete de sales")
-    //recogemos el id para borrar
     let id = req.params.id;
     Sales.findOneAndDelete({_id: id}).then( deletedSale => {
         if(!deletedSale){
@@ -165,29 +145,38 @@ const del = (req, res) => {
     })
 }
 
-const delByName = (req, res) => {
-    console.log("Se ha ejecutado el método de prueba delete de stock")
-    let product_id = req.params.id_product;
-    Stock.findOneAnd
+const del_by_name = (req, res) => {
+    let name = req.params.name;
+    Sales.findOneAndDelete({salesman: name}).then(sale => {
+        if(!sale){
+            return res.status(404).json({
+                status:"error",
+                mensaje: "No se ha encontrado la venta"
+            });
+        }
+        return res.status(200).json({
+            status: "Success",
+            sale,
+            mensaje: "Encontrado correctamente"
+        });
+    }).catch(error => {
+        return res.status(500).json({
+            status: "error",
+            mensaje: "Ha ocurrido un error",
+            error: error.message
+        });
+    })
 }
 
-const editar = (req, res) => {
+const edit = (req, res) => {
     console.log("Se ha ejecutado el método de prueba editar de Stock")
-    
-    // Recoger producto a editar
     let id = req.params.id;
-
-    // Recoger los nuevos datos del body
     let parameters = req.body;
-
-    //validar datos
     try{
-        //Que no estén vacíos
         let val_salesman = !validator.isEmpty(parameters.salesman) 
-            && validator.isLength(parameters.salesman, {min: 3, max:20}); //comprueba el tamaño
+            && validator.isLength(parameters.salesman, {min: 3, max:20});
         let val_client = !validator.isEmpty(parameters.client) 
-            && validator.isLength(parameters.client, {min: 3, max:20}); //comprueba el tamaño
-
+            && validator.isLength(parameters.client, {min: 3, max:20});
         if(!val_salesman || !val_client){
             throw new Error("No se ha completado todos los campos");
         }
@@ -197,8 +186,6 @@ const editar = (req, res) => {
             mensaje: "Faltan datos por enviar"
         })
     }
-
-    //buscar y actualizar artículo
     Sales.findOneAndUpdate({_id: id}, parameters).then( editedSale => {
         if(!editedSale){
             return res.status(404).json({
@@ -220,15 +207,12 @@ const editar = (req, res) => {
     })
 }
 
-
-
 module.exports = {
-    //stock_prueba,
     create,
     read,
-    uno,
-    name,
-    del,
-    delByName,
-    editar
+    read_by_id,
+    read_by_name,
+    del_by_id,
+    del_by_name,
+    edit
 }

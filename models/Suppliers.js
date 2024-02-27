@@ -1,7 +1,5 @@
 const { Schema, model } = require("mongoose"); 
 
-//Esquema de los proveedores.
-
 const SupplierSchema = Schema({
     name: {
         type: String,

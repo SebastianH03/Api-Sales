@@ -2,28 +2,22 @@
 const express = require("express");
 const router = express.Router();
 
-// Controlador de Stock
 const StockController = require("../controllers/stock");
-
-//RUTAS DE CRUD
 
 //guardar
 router.post("", StockController.create);
 
 //leer
 router.get("", StockController.read);
-
-router.get("/:id", StockController.uno);
-
-router.get("/name/:nombre", StockController.name);
+router.get("/:id", StockController.read_by_id);
+router.get("/name/:name", StockController.read_by_name);
 
 //Borrar
-
-router.delete("/:id", StockController.del);
-router.delete("/name/:nombre", StockController.delByName);
+router.delete("/:id", StockController.del_by_id);
+router.delete("/name/:name", StockController.del_by_name);
 
 //editar
-router.put("/:id", StockController.editar);
+router.put("/:id", StockController.edit);
 
 
 module.exports = router;
