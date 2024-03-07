@@ -11,7 +11,7 @@ connection();
 
 // Crear servidor Node (para escuchar peticiones http y crear rutas) Express es el framework
 const app = express();
-const puerto = 3900;
+const port = 3900;
 
 // Configurar cors (middleware antes de ejecutar una ruta para evitar problemas de dominio)
 app.use(cors());
@@ -41,40 +41,31 @@ app.use(async (req, res, next) => {
     next();
 });
 // RUTAS
-const ruta_stock = require("./routes/stock");
-const ruta_Users = require("./routes/users");
-const ruta_sales = require("./routes/sales");
-const ruta_suppliers = require("./routes/suppliers");
-const ruta_history = require("./routes/history");
+const stock_rout = require("./routes/stock");
+const users_rout = require("./routes/users");
+const sales_rout = require("./routes/sales");
+const suppliers_rout = require("./routes/suppliers");
+const history_rout = require("./routes/history");
+const customer_rout = require("./routes/customer");
 // Cargar Rutas
 
 //Ruta de stock
-app.use("/stock", ruta_stock);
+app.use("/stock", stock_rout);
 
 //ruta de usuario
-app.use("/users", ruta_Users);
+app.use("/users", users_rout);
 
 //Ruta de proveedores
-app.use("/suppliers", ruta_suppliers);
+app.use("/suppliers", suppliers_rout);
 
 //Ruta de ventas
-app.use("/sales", ruta_sales);
+app.use("/sales", sales_rout);
 
 //Ruta de historial
-app.use("/history", ruta_history);
+app.use("/history", history_rout);
 
-// Crear rutas (temporal -> de prueba) fuerza bruta
-app.get("/probando", (req, res) => {
-    console.log("Se ha ejecutado el endpoint probando");
-    return res.status(200).json([{
-        nombre: "ProbandoJson",
-        autor: "Sebastian Hernandez"
-    },
-    {
-        nombre: "ProbandoJson",
-        autor: "Arthur Morgan"
-    }]); //devolver algo para la peticion, status puede ser el código http que se desea usar (200 -> exito)
-}) //req es la request y res es la respuesta de la ruta
+//Ruta de Clientes
+app.use("/customer", customer_rout);
 
 app.get("/", (req, res) => {
     console.log("Se ha ejecutado el endpoint probando");
@@ -84,6 +75,6 @@ app.get("/", (req, res) => {
 }) //req es la request y res es la respuesta de la ruta
 
 // Crear servidor y escuchar peticiones http
-app.listen(puerto, ()=> {
-    console.log("Servidor corriendo en el puerto "+puerto);
+app.listen(port, ()=> {
+    console.log("Servidor corriendo en el puerto "+port);
 })
