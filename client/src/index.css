@@ -10,7 +10,10 @@ body{
 
 
 .blueRectangle {
-  background-color: #043F6A;
+  background-image: url("./fondoAzul.avif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /*background-color: #043F6A;*/
   padding: 18vh;
   color: white;
   text-align: center;
@@ -54,21 +57,92 @@ input {
   color: black;
 }
 
-button {
+#button1 {
   width: 150px;
-  margin-left: 10px; 
+  margin-left: 20px; 
   margin-top: 10px;
-  padding: 15px;
+  padding: 15px 15px 15px 40px;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  background-color: #808080;
+  background-color: #1B65B4;
   border-radius: 30px;
-  transition: .2s;
+  color: #a0a0a0;
+  transition: .4s;
 }
 
-button:hover{
-  width: 160px;
-  padding: 16px;
+#button1:hover{
   background-color: #008FD4;
   color: white;
+  box-shadow: 14px 7px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-button {
+  position: relative;
+}
+
+.search-button:hover .search-icon{
+  color: white;
+}
+
+.search-icon {
+  position: absolute;
+  left: 55px;
+  top: 46%;
+  color: #a0a0a0;
+  transition: .4s;
+}
+
+#addButton {
+  width: 150px;
+  margin-top: 100px;
+  padding: 15px 15px 15px 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  background-color: #B0B2AF;
+  border-radius: 30px;
+  color: white;
+  transition: .8s;
+}
+
+#addButton:hover{
+  box-shadow: inset 250px 0 0px 0px #28b41b,
+  14px 7px 10px rgba(0,0,0,0.8);;
+}
+
+#delButton {
+  width: 150px;
+  margin-left: 40px; 
+  margin-top: 100px;
+  padding: 15px 15px 15px 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  background-color: #B0B2AF;
+  border-radius: 30px;
+  color: white;
+  transition: .8s;
+}
+
+#delButton:hover{
+  box-shadow: inset 250px 0 0px 0px #b41b1b,
+  14px 7px 10px rgba(0,0,0,0.8);;
+}
+
+#totalButton {
+  width: 150px;
+  margin-top: 100px;
+  margin-left: 40px; 
+  padding: 15px 15px 15px 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  background-color: #1B65B4;
+  border-radius: 30px;
+  color: white;
+  cursor: default;
+}
+
+.shopButton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 }

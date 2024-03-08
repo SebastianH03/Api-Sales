@@ -1,5 +1,7 @@
 import React from 'react'
 import Navbar from './components/Navbar/Navbar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 function App() {
   return (
@@ -7,13 +9,22 @@ function App() {
       <Navbar />
       <div className='blueRectangle'>
         <h1 className='Text'>Encuentra el producto que necesitas</h1>
-        {/* Aquí puedes agregar tu barra de búsqueda */}
         <div className="search-container">
-          <input type="text" placeholder="Buscar producto" />
-          <button>Buscar</button>
+          <input type="text" placeholder="Buscar producto"/>
+          <div className='search-button'>
+            <FontAwesomeIcon className="search-icon" icon={faSearch} />
+            <button id='button1'>Buscar</button>
+          </div>
         </div>
       </div>
-      <h1 className='Text2'>Más que productos, experiencias</h1>
+      <div>
+        <div className='shopButton'>
+          <button id='addButton'>Agregar</button>
+          <button id='delButton'>Elimnar</button>
+          <button id='totalButton'>Total: </button>
+        </div>
+        <h1 className='Text2'>Más que productos, experiencias</h1>
+      </div>
     </div>
   );
 }

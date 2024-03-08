@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import logo from '../logoXYZ.png';
 
+
 function Navbar() {
   return (
     <>
@@ -31,7 +32,6 @@ const Navb2 = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   img{
     height: 90px;
     cursor: pointer;
