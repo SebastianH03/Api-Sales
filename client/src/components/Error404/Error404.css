@@ -1,0 +1,76 @@
+.divError{
+  position: relative;
+  background-color: white;
+  height  : 100vh;
+}
+
+#number{
+  position: relative;
+  top: 90px;
+  font-size: 180px;
+  color: gray;
+  display: flex;
+  justify-content: center;  
+}
+
+#error{
+  position: relative;
+  top: 20px;
+  font-size: 40px;
+  color: gray;
+  display: flex;
+  justify-content: center;
+  font-family: 'Open Sans';
+  font-style: normal;
+  letter-spacing: .5;
+  font-weight: 400;
+}
+
+#page{
+  position: relative;
+  top: 15px;
+  font-size: 25px;
+  color: gray;
+  display: flex;
+  justify-content: center;
+  font-family: 'Open Sans';
+  font-style: normal;
+  letter-spacing: .5;
+  font-weight: 400;
+}
+
+.iconError{
+  position: relative;
+  top: 150px;
+  display: flex;
+  justify-content: center;    
+  font-size: 200px;
+  color: gray;
+}
+
+#home{
+  position: relative;
+  top: 15px;
+  font-size: 25px;
+  color: gray;
+  display: flex;
+  justify-content: center;
+  font-family: 'Open Sans';
+  font-style: normal;
+  letter-spacing: .5;
+  font-weight: 400;
+  transition: .6s;
+}
+
+#home:hover{
+  color: black;
+}
+
+.iconError{
+  position: relative;
+  top: 150px;
+  display: flex;
+  justify-content: center;    
+  font-size: 200px;
+  color: gray;
+}

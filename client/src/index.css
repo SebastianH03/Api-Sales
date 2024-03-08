@@ -21,6 +21,7 @@ body{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
 }
 
 .Text {
@@ -127,7 +128,7 @@ input {
   14px 7px 10px rgba(0,0,0,0.8);;
 }
 
-#totalButton {
+#totalInput {
   width: 150px;
   margin-top: 100px;
   margin-left: 40px; 
@@ -136,8 +137,10 @@ input {
   font-size: 16px;
   background-color: #1B65B4;
   border-radius: 30px;
+  border: 2px solid black;
   color: white;
   cursor: default;
+  text-align: center;
 }
 
 .shopButton{

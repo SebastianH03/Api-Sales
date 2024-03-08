@@ -1,5 +1,6 @@
 import React from 'react'
-import Navbar from './components/Navbar/Navbar'
+import Navbar from './components/Navbar/Navbar.jsx'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
@@ -20,8 +21,7 @@ function App() {
       <div>
         <div className='shopButton'>
           <button id='addButton'>Agregar</button>
-          <button id='delButton'>Elimnar</button>
-          <button id='totalButton'>Total: </button>
+          <input id='totalInput' type="text" placeholder="Cantidad"/>
         </div>
         <h1 className='Text2'>Más que productos, experiencias</h1>
       </div>
