@@ -15,8 +15,7 @@ const ProductSchema = Schema({
         default:[]
     },
     provider:{
-        type: Schema.Types.ObjectId,
-        ref: 'Suppliers', //Referencia a la colección de proveedores
+        type: String,
         required: true
     },
     providerName:{

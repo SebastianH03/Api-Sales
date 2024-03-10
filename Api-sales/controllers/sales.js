@@ -128,44 +128,41 @@ const edit = async (req, res) => {
     let id = req.params.id;
     const params = req.body;    
     try{
-        if(!Array.isArray(params.salesInfo) || params.salesInfo.length === 0){
-            throw new Error("Faltan datos de la información de la venta");
+        //validar que haya algún cambio para editar
+        if(!params.salesInfo && !params.salesman && !params.client && !params.date){
+            throw new Error("No se ha proporcionado ningún campo para editar");
         }
-        console.log(params.salesInfo);
-        for(const sale of params.salesInfo){
-            const stock = await Stock.findOne({'product.name': sale.product_name});
-            if (!stock){
-                throw new Error("El producto escrito no existe");
-            }
-            sale.product_id = stock.product._id;
-            sale.stock_id = stock._id;
-            if(!sale.product_name || !sale.quantity){
-                throw new Error("Cada venta debe contar con nombre del producto y Cantidad");
+        //Validación en caso de editar el cliente
+        if(params.client){
+            const clientExist = await Customer.exists({name: params.client});
+            if(!clientExist){
+                throw new Error(`El cliente "${params.client}" no existe`);
             }
         }
-        const salesmanExist = await User.exists({name: params.salesman});
-        const clientExist = await Customer.exists({name: params.client});
-
-        if(!salesmanExist || !clientExist){
-            throw new Error("El vendedor o cliente no existe");
-        }
-        Sales.findOneAndUpdate({_id: id}, params).then( editedSale => {
-            if(!editedSale){
-                return res.status(404).json({
-                    status: "error",
-                    message: "No se ha encontrado el producto"
-                });
+        //Validación en caso de editar el vendedor
+        if(params.salesman){
+            const salesmanExist = await User.exists({name: params.salesman});
+            if(!salesmanExist){
+                throw new Error(`El vendedor "${params.salesman}" no existe`);
             }
-            return res.status(200).json({
-                status: "success",
-                sale: editedSale,
-                message: "Objeto editado correctamente"
+        }
+        //actualizar la información
+        const editedSale = await Sales.findOneAndUpdate({_id: id}, {$set: params}, {new: true});
+        if(!editedSale){
+            return res.status(404).json({
+                status: "error",
+                message: "No se ha encontrado la venta"
             });
-        })
+        }  
+        return res.status(200).json({
+            status: "success",
+            sale: editedSale,
+            message: "Venta editada correctamente"
+        });
     }catch(error){
         return res.status(400).json({
             status: "error",
-            message: "Faltan datos por enviar"
+            message: error.message
         })
     }
 }
