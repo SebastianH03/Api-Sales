@@ -5,14 +5,18 @@ const Users = require("./Users")
 
 const SalesSchema = Schema({
     salesInfo:[{
-        Stock:{
+        stock_id:{
             type: Schema.Types.ObjectId,
             ref: "Stock",
             required: true
         },
-        product:{
+        product_id:{
             type: Schema.Types.ObjectId,
             ref: "Stock.product",
+            required: true
+        },
+        product_name:{
+            type: String,
             required: true
         },
         quantity:{
@@ -20,14 +24,12 @@ const SalesSchema = Schema({
             required:true
         }
     }],
-    salesman_id: {
-        type: Schema.Types.ObjectId,
-        ref: "Users",
+    salesman: {
+        type: String,
         required: true
     },
-    client_id: {
-        type: Schema.Types.ObjectId,
-        ref: "Customer",
+    client: {
+        type: String,
         required: true
     },
     date: {

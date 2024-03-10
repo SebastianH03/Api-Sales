@@ -1,72 +1,74 @@
 const validator = require("validator");
 const Sales = require("../models/Sales");
+const Stock = require("../models/Stock");
+const User = require("../models/Users");
+const Customer = require("../models/Customer");
 
-const create = (req, res) => {
-    const parameters = req.body;    
+
+const create = async (req, res) => {
+    const params = req.body;    
     try{
-        let val_salesman = !validator.isEmpty(parameters.salesman) 
-            && validator.isLength(parameters.salesman, {min: 3, max:20});
-        let val_client = !validator.isEmpty(parameters.client) 
-            && validator.isLength(parameters.client, {min: 3, max:20});
-        if(!val_salesman || !val_client){
-            throw new Error("No se ha completado todos los campos");
+        if(!Array.isArray(params.salesInfo) || params.salesInfo.length === 0){
+            throw new Error("Faltan datos de la información de la venta");
         }
+        console.log(params.salesInfo);
+        for(const sale of params.salesInfo){
+            const stock = await Stock.findOne({'product.name': sale.product_name});
+            if (!stock){
+                throw new Error("El producto escrito no existe");
+            }
+            sale.product_id = stock.product._id;
+            sale.stock_id = stock._id;
+            if(!sale.product_name || !sale.quantity){
+                throw new Error("Cada venta debe contar con nombre del producto y Cantidad");
+            }
+        }
+        const salesmanExist = await User.exists({name: params.salesman});
+        const clientExist = await Customer.exists({name: params.client});
+
+        if(!salesmanExist || !clientExist){
+            throw new Error("El vendedor o cliente no existe");
+        }
+
+        const sales = await Sales.create(params);
+        return res.status(200).json({
+            status: "Success",
+            sales: sales,
+            message: "Venta guardada correctamente"
+        });
     }catch(error){
         return res.status(400).json({
             status: "error",
-            mensaje: "Faltan datos por enviar"
+            message: error.message
         })
-    }
-    const sales = new Sales(parameters);
-    sales.save()
-        .then(savedSale => {
-            if(!savedSale){
-                return res.status(400).json({
-                    status: "error",
-                    mensaje: "No se ha guardado el producto"
-                });
-            }
-            return res.status(200).json({
-                status: "Success",
-                sales: savedSale,
-                mensaje: "Articulo guardado correctamente"
-            });
-        })
-        .catch(error => {
-            return res.status(500).json({
-                status: "error",
-                mensaje: "No se ha guardado el producto",
-                error: error.message
-            });
-        });  
+    } 
 }
 
 //Lectura general
 const read = (req, res) =>{
-    console.log("Se ha ejecutado el método de prueba read de sales")
-
-    let consulta = Sales.find({}).then( sale => {
+    console.log("Se ha ejecutado el método de prueba read de sales");
+    let query = Sales.find({}).then( sale => {
         if(!sale){
             return res.status(400).json({
                 status: "error",
-                mensaje: "No se encontró la venta"
+                message: "No se encontró la venta"
             })
         }
 
         return res.status(200).json({
             status: "Success",
             sale,
-            mensaje: "Venta encontrada correctamente"
+            message: "Venta encontrada correctamente"
         }); 
     })
     .catch(error => {
         return res.status(500).json({
             status: "error",
-            mensaje: "ha ocurrido un error",
+            message: "ha ocurrido un error",
             error: error.message
         })
     })
-    return consulta
+    return query
 }
 
 
@@ -78,43 +80,19 @@ const read_by_id = (req, res) => {
         if(!sale){
             return res.status(404).json({
                 status: "error",
-                mensaje: "No se encontró la venta"
+                message: "No se encontró la venta"
             });
         }
         return res.status(200).json({
             status: "Success",
             sale,
-            mensaje: "Venta encontrado correctamente"
+            message: "Venta encontrado correctamente"
         });
     })
     .catch(error => {
         return res.status(500).json({
             status: "error",
-            mensaje: "ha ocurrido un error",
-            error: error.message
-        });
-    })
-}
-
-//Lectura por nombre
-const read_by_name = (req, res) => {
-    let name = req.params.name;
-    Sales.findOne({salesman: name}).then(sale => {
-        if(!sale){
-            return res.status(404).json({
-                status:"error",
-                mensaje: "No se ha encontrado la venta"
-            });
-        }
-        return res.status(200).json({
-            status: "Success",
-            sale,
-            mensaje: "Encontrado correctamente"
-        });
-    }).catch(error => {
-        return res.status(500).json({
-            status: "error",
-            mensaje: "Ha ocurrido un error",
+            message: "ha ocurrido un error",
             error: error.message
         });
     })
@@ -128,91 +106,74 @@ const del_by_id = (req, res) => {
         if(!deletedSale){
             return res.status(404).json({
                 status: "error",
-                mensaje: "No se ha encontrado la venta"
+                message: "No se ha encontrado la venta"
             });
         }
         return res.status(200).json({
             status: "success",
             sale: deletedSale,
-            mensaje: "Venta eliminada correctamente"
+            message: "Venta eliminada correctamente"
         });
     }).catch( error => {
         return res.status(500).json({
             status: "error",
-            mensaje: "Ha ocurrido un error",
+            message: "Ha ocurrido un error",
             error: error.message
         });
     })
 }
 
-const del_by_name = (req, res) => {
-    let name = req.params.name;
-    Sales.findOneAndDelete({salesman: name}).then(sale => {
-        if(!sale){
-            return res.status(404).json({
-                status:"error",
-                mensaje: "No se ha encontrado la venta"
-            });
-        }
-        return res.status(200).json({
-            status: "Success",
-            sale,
-            mensaje: "Encontrado correctamente"
-        });
-    }).catch(error => {
-        return res.status(500).json({
-            status: "error",
-            mensaje: "Ha ocurrido un error",
-            error: error.message
-        });
-    })
-}
-
-const edit = (req, res) => {
+const edit = async (req, res) => {
     console.log("Se ha ejecutado el método de prueba editar de Stock")
     let id = req.params.id;
-    let parameters = req.body;
+    const params = req.body;    
     try{
-        let val_salesman = !validator.isEmpty(parameters.salesman) 
-            && validator.isLength(parameters.salesman, {min: 3, max:20});
-        let val_client = !validator.isEmpty(parameters.client) 
-            && validator.isLength(parameters.client, {min: 3, max:20});
-        if(!val_salesman || !val_client){
-            throw new Error("No se ha completado todos los campos");
+        if(!Array.isArray(params.salesInfo) || params.salesInfo.length === 0){
+            throw new Error("Faltan datos de la información de la venta");
         }
+        console.log(params.salesInfo);
+        for(const sale of params.salesInfo){
+            const stock = await Stock.findOne({'product.name': sale.product_name});
+            if (!stock){
+                throw new Error("El producto escrito no existe");
+            }
+            sale.product_id = stock.product._id;
+            sale.stock_id = stock._id;
+            if(!sale.product_name || !sale.quantity){
+                throw new Error("Cada venta debe contar con nombre del producto y Cantidad");
+            }
+        }
+        const salesmanExist = await User.exists({name: params.salesman});
+        const clientExist = await Customer.exists({name: params.client});
+
+        if(!salesmanExist || !clientExist){
+            throw new Error("El vendedor o cliente no existe");
+        }
+        Sales.findOneAndUpdate({_id: id}, params).then( editedSale => {
+            if(!editedSale){
+                return res.status(404).json({
+                    status: "error",
+                    message: "No se ha encontrado el producto"
+                });
+            }
+            return res.status(200).json({
+                status: "success",
+                sale: editedSale,
+                message: "Objeto editado correctamente"
+            });
+        })
     }catch(error){
         return res.status(400).json({
             status: "error",
-            mensaje: "Faltan datos por enviar"
+            message: "Faltan datos por enviar"
         })
     }
-    Sales.findOneAndUpdate({_id: id}, parameters).then( editedSale => {
-        if(!editedSale){
-            return res.status(404).json({
-                status: "error",
-                mensaje: "No se ha encontrado el producto"
-            });
-        }
-        return res.status(200).json({
-            status: "success",
-            sale: editedSale,
-            mensaje: "Objeto editado correctamente"
-        });
-    }).catch( error => {
-        return res.status(500).json({
-            status: "error",
-            mensaje: "Ha ocurrido un error",
-            error: error.message
-        });
-    })
 }
 
 module.exports = {
     create,
     read,
     read_by_id,
-    read_by_name,
     del_by_id,
-    del_by_name,
     edit
 }
