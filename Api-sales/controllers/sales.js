@@ -74,7 +74,7 @@ const read = (req, res) =>{
 const read_by_id = (req, res) => {
     console.log("Se ha ejecutado el método de prueba obtener artículo de sales")
     let id = req.params.id;
-    Sales.findById(id).then( sale => {
+    Sales.findById({_id:id}).then( sale => {
         if(!sale){
             return res.status(404).json({
                 status: "error",

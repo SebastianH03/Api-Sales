@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-
+const Suppliers = require("./Suppliers");
 
 const ProductSchema = Schema({
     name:{
@@ -16,11 +16,13 @@ const ProductSchema = Schema({
     },
     provider:{
         type: Schema.Types.ObjectId,
-        ref: 'Suppliers' //Referencia a la colección de proveedores
+        ref: 'Suppliers', //Referencia a la colección de proveedores
+        required: true
+    },
+    providerName:{
+        type:String
     }
-})
-
-
+});
 
 const StockSchema = Schema({
     product: ProductSchema,
@@ -28,6 +30,6 @@ const StockSchema = Schema({
         type: Number,
         required: true
     }
-}) 
+});
 
 module.exports = model("Stock", StockSchema, "stock")

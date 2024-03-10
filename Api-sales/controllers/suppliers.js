@@ -8,13 +8,11 @@ const create = (req, res) => {
         const errors = [];
         const isNameValid = !validator.isEmpty(parameters.name) && validator.isLength(parameters.name, {min: 1, max: 15});
         errors.push("Nombre");
-        const isProductValid = !validator.isEmpty(parameters.product) && validator.isLength(parameters.product, {min: 3, max: 30});
-        errors.push("Producto");
         const isAddressValid = !validator.isEmpty(parameters.address) && validator.isLength(parameters.address, {min: 5, max: 40});
         errors.push("Direccion");
         const isTelephoneValid = !validator.isEmpty(parameters.telephone) && validator.isLength(parameters.telephone, {min: 1, max: 20});
         errors.push("Telephone");
-        if(!isNameValid || !isProductValid || !isAddressValid || !isTelephoneValid){
+        if(!isNameValid || !isAddressValid || !isTelephoneValid){
             throw new Error("No se han completado todos los campos correctamente.");
         }
     }catch(error){
@@ -79,7 +77,7 @@ const read = (req, res) =>{
 const read_by_id = (req, res) => {
     console.log("Se ha ejecutado el método de prueba obtener proveedor de Suppliers")
     let id = req.params.id;
-    Suppliers.findById(id).then( supplier => {
+    Suppliers.findById({_id:id}).then( supplier => {
         if(!supplier){
             return res.status(404).json({
                 status: "Error",
@@ -150,22 +148,15 @@ const del_by_id = (req, res) => {
     })
 }
 
-const del_by_name = (req, res) => {
-    console.log("Se ha ejecutado el método de prueba delete de stock")
-    let product_id = req.params.id_product;
-    Stock.findOneAnd
-}
-
 const edit_by_id = (req, res) => {
     console.log("Se ha ejecutado el método de prueba editar de Suppliers")
     let id = req.params.id;
     let parameters = req.body;
     try{
         const isNameValid = !validator.isEmpty(parameters.name) && validator.isLength(parameters.name, {min: 1, max: 15});
-        const isProductValid = !validator.isEmpty(parameters.product) && validator.isLength(parameters.product, {min: 3, max: 30});
         const isAddressValid = !validator.isEmpty(parameters.address) && validator.isLength(parameters.address, {min: 5, max: 40});
         const isTelephoneValid = !validator.isEmpty(parameters.telephone) && validator.isLength(parameters.telephone, {min: 1, max: 20});
-        if(!isNameValid || !isProductValid || !isAddressValid || !isTelephoneValid){
+        if(!isNameValid || !isAddressValid || !isTelephoneValid){
             throw new Error("No se han completado todos los campos correctamente.");
         }
     }catch(error){
@@ -204,6 +195,5 @@ module.exports = {
     read_by_id,
     read_by_name,
     del_by_id,
-    del_by_name,
     edit_by_id
 }

@@ -1,19 +1,38 @@
 const { Schema, model } = require("mongoose"); 
+const Stock = require("./Stock");
+const Customer = require("./Customer");
+const Users = require("./Users")
 
 const SalesSchema = Schema({
-    product: [{
-        type: String,
+    salesInfo:[{
+        Stock:{
+            type: Schema.Types.ObjectId,
+            ref: "Stock",
+            required: true
+        },
+        product:{
+            type: Schema.Types.ObjectId,
+            ref: "Stock.product",
+            required: true
+        },
+        quantity:{
+            type: Number,
+            required:true
+        }
     }],
-    salesman: {
-        type: String,
+    salesman_id: {
+        type: Schema.Types.ObjectId,
+        ref: "Users",
         required: true
     },
-    client: {
-        type: String,
+    client_id: {
+        type: Schema.Types.ObjectId,
+        ref: "Customer",
         required: true
     },
     date: {
-        type: Date
+        type: Date,
+        default: Date.now
     }
 })
 
