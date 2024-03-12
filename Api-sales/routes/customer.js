@@ -11,6 +11,8 @@ router.post("", CustomerController.create);
 //leer
 router.get("", CustomerController.read);
 
+router.get("/:id", CustomerController.read_by_id);
+
 //Borra
 router.delete("/:id", CustomerController.del_by_id);
 

@@ -10,6 +10,7 @@ router.post("", UsersController.create);
 
 //leer
 router.get("", UsersController.read);
+router.get("/:id", UsersController.read_by_id);
 
 //Borra
 router.delete("/:id", UsersController.del_by_id);

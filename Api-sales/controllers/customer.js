@@ -8,15 +8,15 @@ const create = (req, res) => {
     const params = req.body;
     try{
         let validate_name = !validator.isEmpty(params.name);
-        let validate_id = !validator.isEmpty(params.id) 
-        let validate_email = !validator.isEmpty(params.email); 
+        let validate_id = !validator.isEmpty(params.ID) 
+        let validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email); 
         if( !validate_name || !validate_id || ! validate_email){
-            throw new Error("No se ha completado todos los campos");
+            throw new Error("No se ha completado todos los campos o algún campo es invalido");
         }
     }catch(error){
         return res.status(400).json({
             status: "error",
-            message: "Faltan datos por enviar" + error
+            message: "Faltan datos por enviar \n" + error
         })
     }
     const customer = new Customer(params);
@@ -51,7 +51,32 @@ const read = (req, res) =>{
                 message: "No se encontró el cliente"
             })
         }
+        return res.status(200).json({
+            status: "Success",
+            client,
+            message: "Cliente encontrado correctamente"
+        }); 
+    })
+    .catch(error => {
+        return res.status(500).json({
+            status: "Error",
+            message: "Ha ocurrido un error",
+            error: error.message
+        })
+    })
+    return query
+}
 
+
+const read_by_id = (req, res) =>{
+    let id = req.params.id;
+    let query = Customer.findById({_id:id}).then( client => {
+        if(!client){
+            return res.status(400).json({
+                status: "error",
+                message: "No se encontró el cliente"
+            })
+        }
         return res.status(200).json({
             status: "Success",
             client,
@@ -97,19 +122,19 @@ const edit_by_id = (req, resp) => {
     let params = req.body;
     try{
         let validate_name = !validator.isEmpty(params.name);
-        let validate_id = !validator.isEmpty(params.id) 
-        let validate_email = !validator.isEmpty(params.email); 
+        let validate_id = !validator.isEmpty(params.ID) 
+        let validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email); 
         if( !validate_name || !validate_id || ! validate_email){
-            throw new Error("No se ha completado todos los campos");
+            throw new Error("No se ha completado todos los campos o algún campo es invalido");
         }
     }catch(error){
         return res.status(400).json({
             status: "error",
-            message: "Faltan datos por enviar" + error
-        });
+            message: "Faltan datos por enviar \n" + error
+        })
     }
 
-    Customer.findOneAndUpdate({_id:id}, parametros).then( editCustomer => {
+    Customer.findOneAndUpdate({_id:id}, params).then( editCustomer => {
         if(!editCustomer){
             return resp.status(404).json({
                 status: "Error",
@@ -140,5 +165,6 @@ module.exports = {
     create,
     read,
     del_by_id,
-    edit_by_id
+    edit_by_id,
+    read_by_id
 }

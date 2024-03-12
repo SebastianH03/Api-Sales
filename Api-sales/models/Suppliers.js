@@ -6,8 +6,8 @@ const SupplierSchema = Schema({
         required: true
     },
     product: {
-        type: String,
-        required: true
+        type: [String],
+        default: []
     },
     address: {
         type: String,

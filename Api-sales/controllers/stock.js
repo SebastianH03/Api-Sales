@@ -1,77 +1,93 @@
 //dependencias
 const validator = require("validator");
 const Stock = require("../models/Stock");
+const Suppliers = require("../models/Suppliers");
+const { param } = require("../routes/stock");
 
-//Creación de métodos
 
 //Crear
-
-const create = (req, res) => {
-    const parametros = req.body;
+const create = async (req, res) => {
+    const params = req.body;
     try{
-        let validar_quantity = !validator.isEmpty(parametros.quantity);
-        let validar_product = !validator.isEmpty(parametros.product) 
-            && validator.isLength(parametros.product, {min: 3, max:20});
-        if(!validar_product || !validar_quantity){
-            throw new Error("No se ha completado todos los campos");
+        if(!params.quantity || !validator.isNumeric(params.quantity) || parseFloat(params.quantity) <= 0){
+            throw new Error("La cantidad del producto no es válida");
         }
+        if(!params.product || !params.product.name || !params.product.price){
+            throw new Error("Datos del producto son invalidos");
+        }
+        if(!validator.isLength(params.product.name, {min:3, max: 35})){
+            throw new Error("La longitud del producto no es valida (debe tener entre 3 a 35 caracteres");
+        }
+        const provider = await Suppliers.exists({name: params.product.providerName});
+        if (!provider){
+            throw new Error("El proveedor proporcionado no existe");
+        }
+        const stock = new Stock({
+            product:{
+                name: params.product.name,
+                price: params.product.price,
+                provider: provider._id,
+                tags: params.product.tags,
+                providerName: provider.name
+            },
+            quantity: params.quantity
+        });
+        stock.save()
+            .then(savedStock => {
+                if(!savedStock){
+                    return res.status(400).json({
+                        status: "error",
+                        message: "No se ha guardado el producto"
+                    });
+                }
+                return res.status(200).json({
+                    status: "Success",
+                    stock: savedStock,
+                    message: "Articulo guardado correctamente"
+                });
+            })
+            .catch(error => {
+                return res.status(500).json({
+                    status: "error",
+                    message: "No se ha guardado el producto",
+                    error: error.message
+                });
+            });  
     }catch(error){
         return res.status(400).json({
             status: "error",
-            mensaje: "Faltan datos por enviar"
+            message: "Faltan datos por enviar"
         })
     }
-    const stock = new Stock(parametros);
-    stock.save()
-        .then(stockGuardado => {
-            if(!stockGuardado){
-                return res.status(400).json({
-                    status: "error",
-                    mensaje: "No se ha guardado el producto"
-                });
-            }
-            return res.status(200).json({
-                status: "Success",
-                stock: stockGuardado,
-                mensaje: "Articulo guardado correctamente"
-            });
-        })
-        .catch(error => {
-            return res.status(500).json({
-                status: "error",
-                mensaje: "No se ha guardado el producto",
-                error: error.message
-            });
-        });  
 }
 
 //Lectura general
 
 const read = (req, res) =>{
     console.log("Se ha ejecutado el método de prueba read de stock")
-    const orden = req.query.orden || 'asc';
-    const ordenamiento = {quantity: orden === 'desc' ? -1: 1};
-    let consulta = Stock.find({}).sort(ordenamiento).then( producto => {
-        if(!producto){
+    const order = req.query.orden || 'asc';
+    const sorting = {quantity: order === 'desc' ? -1: 1};
+    let query = Stock.find({}).sort(sorting).then( stock => {
+        if(!stock){
             return res.status(400).json({
                 status: "error",
-                mensaje: "No se encontró el producto"
+                message: "No se encontró el producto"
             })
         }
         return res.status(200).json({
             status: "Success",
-            producto,
-            mensaje: "Producto encontrado correctamente"
+            stock,
+            message: "Producto encontrado correctamente"
         }); 
     })
     .catch(error => {
         return res.status(500).json({
             status: "error",
-            mensaje: "ha ocurrido un error",
+            message: "ha ocurrido un error",
             error: error.message
         })
     })
-    return consulta
+    return query
 }
 
 
@@ -80,47 +96,23 @@ const read = (req, res) =>{
 const read_by_id = (req, res) => {
     console.log("Se ha ejecutado el método de prueba obtener artículo de stock")
     let id = req.params.id;
-    Stock.findById(id).then( producto => {
-        if(!producto){
+    Stock.findById({_id:id}).then( stock => {
+        if(!stock){
             return res.status(404).json({
                 status: "error",
-                mensaje: "No se encontró el producto"
+                message: "No se encontró el producto"
             });
         }
         return res.status(200).json({
             status: "Success",
-            producto,
-            mensaje: "Producto encontrado correctamente"
+            stock,
+            message: "Producto encontrado correctamente"
         });
     })
     .catch(error => {
         return res.status(500).json({
             status: "error",
-            mensaje: "ha ocurrido un error",
-            error: error.message
-        });
-    })
-}
-
-//Lectura por nombre
-const read_by_name = (req, res) => {
-    let name = req.params.name;
-    Stock.findOne({product: name}).then(producto => {
-        if(!producto){
-            return res.status(404).json({
-                status:"error",
-                mensaje: "No se ha encontrado el producto"
-            });
-        }
-        return res.status(200).json({
-            status: "Success",
-            producto,
-            mensaje: "Encontrado correctamente"
-        });
-    }).catch(error => {
-        return res.status(500).json({
-            status: "error",
-            mensaje: "Ha ocurrido un error",
+            message: "ha ocurrido un error",
             error: error.message
         });
     })
@@ -130,97 +122,72 @@ const read_by_name = (req, res) => {
 const del_by_id = (req, res) => {
     console.log("Se ha ejecutado el método de prueba delete de stock")
     let id = req.params.id;
-    Stock.findOneAndDelete({_id: id}).then( productoBorrado => {
-        if(!productoBorrado){
+    Stock.findOneAndDelete({_id: id}).then( stock => {
+        if(!stock){
             return res.status(404).json({
                 status: "error",
-                mensaje: "No se ha encontrado el producto"
+                message: "No se ha encontrado el producto"
             });
         }
         return res.status(200).json({
             status: "success",
-            producto: productoBorrado,
-            mensaje: "Objeto eliminado correctamente"
+            stock: stock,
+            message: "Objeto eliminado correctamente"
         });
     }).catch( error => {
         return res.status(500).json({
             status: "error",
-            mensaje: "Ha ocurrido un error",
+            message: "Ha ocurrido un error",
             error: error.message
         });
     })
 }
 
-//Borrar por nombre
-const del_by_name = (req, res) => {
-    let name = req.params.name;
-    Stock.findOneAndDelete({product: name}).then(producto => {
-        if(!producto){
+
+const edit = async (req, res) => {
+    console.log("Se ha ejecutado el método de editar de Stock");
+    const id = req.params.id;
+    const params = req.body;
+
+    try {
+        
+        if (!params.quantity && !params.product) {
+            throw new Error("No se ha proporcionado ningún campo para editar");
+        }
+
+        if(params.product){
+            if(!params.product.price && !params.product.name && !params.product.providerName && !params.product.tags){
+                throw new Error("No se ha proporcionado ningún campo para editar en el producto");
+            }
+        }
+        // Realizar la actualización
+        const updatedStock = await Stock.findByIdAndUpdate({_id: id}, {$set: params}, { new: true });
+
+        if (!updatedStock) {
             return res.status(404).json({
-                status:"error",
-                mensaje: "No se ha encontrado el producto"
+                status: "error",
+                message: "No se ha encontrado el producto"
             });
         }
+
         return res.status(200).json({
-            status: "Success",
-            producto,
-            mensaje: "Producto eliminado correctamente"
+            status: "success",
+            stock: updatedStock,
+            message: "Producto editado correctamente"
         });
-    }).catch(error => {
-        return res.status(500).json({
-            status: "Error",
-            mensaje: "Ha ocurrido un error",
-            error: error.message
-        });
-    })
-}
-
-//Editar
-
-const edit = (req, res) => {
-    console.log("Se ha ejecutado el método de prueba editar de Stock")
-    let id = req.params.id;
-    let parametros = req.body;
-    try{
-        let validar_quantity = !validator.isEmpty(parametros.quantity);
-        let validar_product = !validator.isEmpty(parametros.product) 
-            && validator.isLength(parametros.product, {min: 3, max:20}); //comprueba el tamaño
-        if(!validar_product || !validar_quantity){
-            throw new Error("No se ha completado todos los campos");
-        }
-    }catch(error){
+    } catch(error) {
         return res.status(400).json({
             status: "error",
-            mensaje: "Faltan datos por enviar"
-        })
+            message: error.message
+        });
     }
-    Stock.findOneAndUpdate({_id: id}, parametros).then( producto => {
-        if(!producto){
-            return res.status(404).json({
-                status: "error",
-                mensaje: "No se ha encontrado el producto"
-            });
-        }
-        return res.status(200).json({
-            status: "success",
-            producto: producto,
-            mensaje: "Objeto editado correctamente"
-        });
-    }).catch( error => {
-        return res.status(500).json({
-            status: "error",
-            mensaje: "Ha ocurrido un error",
-            error: error.message
-        });
-    })
 }
+
 
 module.exports = {
     create,
     read,
     read_by_id,
-    read_by_name,
     del_by_id,
-    del_by_name,
     edit
 }

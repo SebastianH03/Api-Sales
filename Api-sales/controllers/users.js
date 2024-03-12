@@ -5,68 +5,96 @@ const Users = require("../models/Users");
 
 
 const create = (req, res) => {
-    const parametros = req.body;
+    const params = req.body;
     try{
-        let validar_nombre = !validator.isEmpty(parametros.name);
-        let validar_password = !validator.isEmpty(parametros.password) 
-        let validar_rol = !validator.isEmpty(parametros.role); 
-        if( !validar_nombre || !validar_password || ! validar_rol){
+        let name_validator = !validator.isEmpty(params.name);
+        let password_validator = !validator.isEmpty(params.password); 
+        let role_validator = !validator.isEmpty(params.role);
+        let email_validator = !validator.isEmpty(params.email) && validator.isEmail(params.email); 
+        if( !name_validator || !password_validator || ! role_validator || !email_validator){
             throw new Error("No se ha completado todos los campos");
         }
     }catch(error){
         return res.status(400).json({
             status: "error",
-            mensaje: "Faltan datos por enviar" + error
+            message: "Faltan datos por enviar \n" + error
         })
     }
-    const user = new Users(parametros);
+    const user = new Users(params);
     user.save()
-        .then(usuarioGuardado => {
-            if(!usuarioGuardado){
+        .then(savedUser => {
+            if(!savedUser){
                 return res.status(400).json({
                     status: "error",
-                    mensaje: "No se ha guardado el usuario"
+                    message: "No se ha guardado el usuario"
                 });
             }
             return res.status(200).json({
                 status: "Success",
-                user: usuarioGuardado,
-                mensaje: "usuario guardado correctamente"
+                user: savedUser,
+                message: "usuario guardado correctamente"
             });
         })
         .catch(error => {
             return res.status(500).json({
                 status: "error",
-                mensaje: "No se ha guardado el usuario",
+                message: "No se ha guardado el usuario",
                 error: error.message
             });
         });  
 }
 
 const read = (req, res) =>{
-    let consulta = Users.find({}).then( product => {
-        if(!product){
+    let query = Users.find({}).then( user => {
+        if(!user){
             return res.status(400).json({
                 status: "error",
-                mensaje: "No se encontró el usuario"
+                message: "No se encontró el usuario"
             })
         }
 
         return res.status(200).json({
             status: "Success",
-            product,
-            mensaje: "Usuario encontrado correctamente"
+            user,
+            message: "Usuario encontrado correctamente"
         }); 
     })
     .catch(error => {
         return res.status(500).json({
             status: "Error",
-            mensaje: "Ha ocurrido un error",
+            message: "Ha ocurrido un error",
             error: error.message
         })
     })
-    return consulta
+    return query
 }
+
+const read_by_id = (req, res) =>{
+    let id = req.params.id;
+    let query = Users.find({_id:id}).then( user => {
+        if(!user){
+            return res.status(400).json({
+                status: "error",
+                message: "No se encontró el usuario"
+            })
+        }
+
+        return res.status(200).json({
+            status: "Success",
+            user,
+            message: "Usuario encontrado correctamente"
+        }); 
+    })
+    .catch(error => {
+        return res.status(500).json({
+            status: "Error",
+            message: "Ha ocurrido un error",
+            error: error.message
+        })
+    })
+    return query
+}
+
 
 const del_by_id = (req, res) => {
     let id = req.params.id;
@@ -74,7 +102,7 @@ const del_by_id = (req, res) => {
         if(!deletedUser){
             return res.status(404).json({
                 status: "Error",
-                mensaje: "No se encontro el Usuario"
+                message: "No se encontro el Usuario"
             });
         }
 
@@ -86,7 +114,7 @@ const del_by_id = (req, res) => {
     }).catch(error => {
         return res.status(500).json({
             status: "Error",
-            mensaje: "Ha ocurrido un error",
+            message: "Ha ocurrido un error",
             error: error.message
         });
     })
@@ -94,42 +122,39 @@ const del_by_id = (req, res) => {
 
 const edit_by_id = (req, resp) => {
     let id = req.params.id;
-    let parametros = req.body;
+    const params = req.body;
     try{
-        let validar_nombre = !validator.isEmpty(parametros.name);
-        let validar_password = !validator.isEmpty(parametros.password) 
-        let validar_rol = !validator.isEmpty(parametros.role); 
-            
-
-        if( !validar_nombre || !validar_password || ! validar_rol){
+        let name_validator = !validator.isEmpty(params.name);
+        let password_validator = !validator.isEmpty(params.password); 
+        let role_validator = !validator.isEmpty(params.role);
+        let email_validator = !validator.isEmpty(params.email) && validator.isEmail(params.email); 
+        if( !name_validator || !password_validator || ! role_validator || !email_validator){
             throw new Error("No se ha completado todos los campos");
         }
-
     }catch(error){
         return res.status(400).json({
             status: "error",
-            mensaje: "Faltan datos por enviar" + error
-        });
+            message: "Faltan datos por enviar \n" + error
+        })
     }
-
-    Users.findOneAndUpdate({_id:id}, parametros).then( editUser => {
-        if(!editUser){
+    Users.findOneAndUpdate({_id:id}, params).then( editedUser => {
+        if(!editedUser){
             return resp.status(404).json({
                 status: "Error",
-                mensaje: "No se ha encontrado el producto"
+                message: "No se ha encontrado el producto"
             });
         }
 
         return resp.status(200).json({
             status: "Succes",
-            user: editUser,
-            mensaje: "Usuario editado correctamente"
+            user: editedUser,
+            message: "Usuario editado correctamente"
         });
 
     }).catch(error => {
         return res.status(500).json({
             status: "Error",
-            mensaje: "Ha ocurrido un error",
+            message: "Ha ocurrido un error",
             error: error.message
         });
     })
@@ -142,6 +167,7 @@ const edit_by_id = (req, resp) => {
 module.exports = {
     create,
     read,
+    read_by_id,
     del_by_id,
     edit_by_id
 }

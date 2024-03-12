@@ -13,7 +13,6 @@ router.get("/name/:name", SuppliersController.read_by_name);
 
 //Borrar
 router.delete("/:id", SuppliersController.del_by_id);
-router.delete("/name/:name", SuppliersController.del_by_name);
 
 //Editar
 router.put("/:id", SuppliersController.edit_by_id);
