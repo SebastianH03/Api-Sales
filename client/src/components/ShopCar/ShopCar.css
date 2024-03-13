@@ -22,7 +22,7 @@
   background-color: white;
   color: black;
   padding: 10px;
-  width: 300px;
+  width: 200px;
   height: auto;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -32,4 +32,22 @@
 
 #divPruebas.open #cartDropdown {
   opacity: 1;
+}
+
+.deleteProduct{
+  color: red;
+  margin-right: 1000000px;
+}
+
+#buttonSale{
+  background-color: rgb(57, 190, 57);
+  border-radius: 15px;
+  font-size: 15px;
+  padding: 5px;
+  transition: .3s;
+}
+
+#buttonSale:hover{
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
 }

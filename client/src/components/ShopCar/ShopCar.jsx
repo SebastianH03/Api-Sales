@@ -40,13 +40,29 @@ class Pruebas extends React.Component {
           <ul>
             {cartItems.map((item, index) => (
               <li key={index}>
-                {item.name} - Cantidad: {item.quantity} - Precio: ${item.price} - Subtotal: ${item.price * item.quantity}
-                <button onClick={() => this.handleRemoveProduct(item.id)}>Eliminar</button>
-              </li>
+              <div>
+                <strong>{item.name}</strong>
+              </div>
+              <div>
+                Cantidad: {item.quantity}
+              </div>
+              <div>
+                Precio: ${item.price}
+              </div>
+              <div>
+                Subtotal: ${item.price * item.quantity}
+              </div>
+              <button className='deleteProduct' onClick={() => this.handleRemoveProduct(item.id)}>
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </li>
             ))}
           </ul>
           <div id="totalContainer">
             <p>Total: ${total.toFixed(2)}</p>
+          </div>
+          <div>
+            <button id='buttonSale'>Generar venta</button>
           </div>
         </div>
       </div>
