@@ -1,0 +1,35 @@
+/* Pruebas.css */
+#divPruebas {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  position: absolute;
+  top: 100px;
+  right: 0;
+}
+
+#iconoShopify {
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+#cartDropdown {
+  position: absolute;
+  top: 60px;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+#divPruebas.open #cartDropdown {
+  opacity: 1;
+}

@@ -1,32 +1,64 @@
+// App.js
 import React, { useState } from 'react';
 import Navbar from './components/Navbar/Navbar.jsx';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import Pruebas from './components/ShopCar/ShopCar.jsx';
 
 function App() {
   const [productId, setProductId] = useState('');
   const [foundProduct, setFoundProduct] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  const [quantity, setQuantity] = useState(1);
 
   const handleSearch = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3900/stock/${productId}`);
-      const product = response.data.stock;
-      if (product) {
-        console.log('Producto encontrado:', product);
-        setFoundProduct(product);
-      } 
-    } catch (error) {
-      console.error('Error al buscar el producto:', error.message);
-      setFoundProduct(null);
+    setFoundProduct(null);
+    if (productId && productId.length > 0) {
+      try {
+        const response = await axios.get(`http://localhost:3900/stock/${productId}`);
+        const product = response.data.stock;
+
+        if (product) {
+          console.log('Producto encontrado:', product);
+          setFoundProduct(product);
+        }
+      } catch (error) {
+        console.error('Error al buscar el producto:', error.message);
+      }
     }
   };
 
   const handleAddProduct = () => {
-    // Aquí puedes implementar la lógica para agregar el producto
-    // Puedes utilizar el estado 'foundProduct' para obtener la información del producto encontrado
-    // y la cantidad del input
-    alert('Producto agregado. Cantidad: [obtener valor del input]');
+    if (foundProduct) {
+      const existingItemIndex = cartItems.findIndex((item) => item.id === foundProduct.product._id);
+    
+      // Convertir la cantidad del input a un número, para calcular el total
+      const quantityToAdd = parseInt(quantity, 10);
+    
+      if (existingItemIndex !== -1) {
+        // Si el producto ya está en el carrito, actualiza la cantidad
+        const updatedCartItems = [...cartItems];
+        updatedCartItems[existingItemIndex].quantity += quantityToAdd;
+        setCartItems(updatedCartItems);
+      } else {
+        // Si el producto no está en el carrito, se agrega
+        const newItem = {
+          id: foundProduct.product._id,
+          name: foundProduct.product.name,
+          price: foundProduct.product.price || 0,
+          quantity: quantityToAdd,
+        };
+        setCartItems([...cartItems, newItem]);
+      }
+    
+      setFoundProduct(null);
+      setQuantity(1);
+    }
+  };
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   return (
@@ -50,24 +82,34 @@ function App() {
         </div>
       </div>
       <div>
-        {foundProduct ? (
-          <div>
-            <div className='shopButton'>
-              <button id='addButton' onClick={handleAddProduct}>
-                Agregar
-              </button>
-              <input id='totalInput' type="text" placeholder="Cantidad"/>
-            </div>
-          </div>
-          
-        ) : (
-          <div id='invalidId'>
-            <i class="fa-regular fa-face-frown"></i>
-            <p >Producto no encontrado, verifique el ID</p>
-          </div>   
-        )}
-        <h1 className='Text2'>Más que productos, experiencias</h1>
+  {foundProduct ? (
+    <div>
+      <div className='shopButton'>
+        <button id='addButton' onClick={handleAddProduct}>
+          Agregar <i className="fa-brands fa-shopify"></i>
+        </button>
+        <input
+          id='totalInput'
+          type="number"
+          placeholder="Cantidad"
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)} //cambiar cantidad con las flechas
+        />
       </div>
+    </div>
+  ) : (
+    <div id='invalidId'>
+      <i className="fa-regular fa-face-frown"></i>
+      <p>Producto no encontrado, verifique el ID</p>
+    </div>
+  )}
+  <h1 className='Text2'>Más que productos, experiencias</h1>
+</div>
+<Pruebas
+      cartItems={cartItems}
+      setCartItems={setCartItems}
+      total={calculateTotal()}
+    />
     </div>
   );
 }
