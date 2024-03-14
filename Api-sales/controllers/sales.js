@@ -31,6 +31,14 @@ const create = async (req, res) => {
         }
 
         const sales = await Sales.create(params);
+
+        const pdfContent = await generateInvoicePDF(sales);
+        const pdfFileName = `invoice_${sales._id}.pdf`;
+        // Configurar los encabezados de la respuesta para indicar que es un archivo para descargar
+        res.setHeader('Content-disposition', `attachment; filename=${pdfFileName}`);
+        res.setHeader('Content-type', 'application/pdf');
+        // Enviar el contenido del PDF como respuesta
+        pdfContent.pipe(res);
         // const invoiceFileName = generateInvoicePDF(sales);
         // res.download(invoiceFileName, 'factura.pdf', (err) => {
         //     if (err) {
@@ -48,11 +56,11 @@ const create = async (req, res) => {
         //         });
         //     }
         // });
-        res.status(200).json({
-            status: "Success",
-            sales: sales,
-            message: "Venta guardada correctamente"
-        });
+        // res.status(200).json({
+        //     status: "Success",
+        //     sales: sales,
+        //     message: "Venta guardada correctamente"
+        // });
     }catch(error){
         return res.status(400).json({
             status: "error",
