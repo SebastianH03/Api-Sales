@@ -3,7 +3,7 @@ const Sales = require("../models/Sales");
 const Stock = require("../models/Stock");
 const User = require("../models/Users");
 const Customer = require("../models/Customer");
-
+const { generateInvoicePDF } = require('../services/pdfGenerator');
 
 const create = async (req, res) => {
     const params = req.body;    
@@ -31,7 +31,24 @@ const create = async (req, res) => {
         }
 
         const sales = await Sales.create(params);
-        return res.status(200).json({
+        // const invoiceFileName = generateInvoicePDF(sales);
+        // res.download(invoiceFileName, 'factura.pdf', (err) => {
+        //     if (err) {
+        //         console.error('Error al descargar el archivo:', err);
+        //         // Manejar el error como desees
+        //     } else {
+        //         console.log('Archivo descargado correctamente');
+        //         // Eliminar el archivo después de descargarlo
+        //         fs.unlink(invoiceFileName, (err) => {
+        //             if (err) {
+        //                 console.error('Error al eliminar el archivo:', err);
+        //             } else {
+        //                 console.log('Archivo eliminado correctamente');
+        //             }
+        //         });
+        //     }
+        // });
+        res.status(200).json({
             status: "Success",
             sales: sales,
             message: "Venta guardada correctamente"
