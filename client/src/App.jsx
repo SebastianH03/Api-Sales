@@ -7,16 +7,16 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Pruebas from './components/ShopCar/ShopCar.jsx';
 
 function App() {
-  const [productId, setProductId] = useState('');
+  const [stock_id, setstock_id] = useState('');
   const [foundProduct, setFoundProduct] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
   const handleSearch = async () => {
     setFoundProduct(null);
-    if (productId && productId.length > 0) {
+    if (stock_id && stock_id.length > 0) {
       try {
-        const response = await axios.get(`http://localhost:3900/stock/${productId}`);
+        const response = await axios.get(`http://localhost:3900/stock/${stock_id}`);
         const product = response.data.stock;
 
         if (product) {
@@ -32,7 +32,6 @@ function App() {
   const handleAddProduct = () => {
     if (foundProduct) {
       const existingItemIndex = cartItems.findIndex((item) => item.id === foundProduct.product._id);
-    
       // Convertir la cantidad del input a un número, para calcular el total.
       const quantityToAdd = parseInt(quantity, 10);
     
@@ -44,14 +43,15 @@ function App() {
       } else {
         // Si el producto no está en el carrito, se agrega
         const newItem = {
-          id: foundProduct.product._id,
-          name: foundProduct.product.name,
+          stock_id: stock_id,
+          product_id: foundProduct.product._id,
+          product_name: foundProduct.product.name,
           price: foundProduct.product.price || 0,
           quantity: quantityToAdd,
         };
         setCartItems([...cartItems, newItem]);
       }
-    
+      
       setFoundProduct(null);
       setQuantity(1);
     }
@@ -70,8 +70,8 @@ function App() {
           <input
             type="text"
             placeholder="Buscar producto"
-            value={productId}
-            onChange={(e) => setProductId(e.target.value)}
+            value={stock_id}
+            onChange={(e) => setstock_id(e.target.value)}
           />
           <div className='search-button'>
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
