@@ -1,0 +1,23 @@
+.Registro{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-image: url("../img/castroBackgroun.jpg");
+}
+
+
+
+.logoRegister{
+  position: absolute;
+  margin-top: -430px;
+  margin-left: 110px;
+  border-radius: 15px;
+  width: 200px;
+}
+
+
