@@ -15,6 +15,8 @@ class Pruebas extends React.Component {
   handleCartClick = () => {
     this.setState((prevState) => ({ isOpen: !prevState.isOpen }), () => {
       const divPruebas = document.getElementById('divPruebas');
+      const { setIsCartOpen } = this.props;
+      setIsCartOpen(prevState => !prevState);
       if (this.state.isOpen) {
         divPruebas.classList.add('open');
       } else {
@@ -25,7 +27,7 @@ class Pruebas extends React.Component {
 
   handleRemoveProduct = (productId) => {
     const { cartItems, setCartItems } = this.props;
-    const updatedCartItems = cartItems.filter(item => item.id !== productId);
+    const updatedCartItems = cartItems.filter(item => item.product_id !== productId);
     setCartItems(updatedCartItems);
   };
 
@@ -48,33 +50,36 @@ class Pruebas extends React.Component {
   
     // Generar venta
     const data = { salesInfo: this.props.cartItems, salesman: salesmanName, client: clientName };
-    console.log(data)
+    const stockData = this.props;
+    console.log("datos de la venta", stockData)
     axios.post("http://localhost:3900/sales", data)
       .then((response) => {
-        alert("respuesta del servidor", response);
+        alert("Venta generada correctamente :)", response);
+        this.props.setCartItems([]);
+        
       })
       .catch((error) => {
-        alert("error del servidor", error);
+        alert("Datos incorrectos, intente nuevamente :(", error);
       });
   };
   
 
   render() {
     const { cartItems, total } = this.props;
-    const { clientName, salesmanName } = this.state;
-
+    const saleTotal = total;
+    const showGenerateSaleButton = saleTotal > 0;
     return (
-      <div id='divPruebas' className={cartItems.length > 0 ? 'open' : ''}>
+      <div id='divPruebas'>
         <button onClick={this.handleCartClick}>
           <i id='iconoShopify' className="fa-brands fa-shopify"></i>
         </button>
         <div id='cartDropdown'>
-          <p>Tu canasta</p>
+          <p id='saleTittle'>Venta</p>
           <ul>
             {cartItems.map((item, index) => (
               <li key={index}>
                 <div>
-                  <strong>{item.name}</strong>
+                  <strong>{item.product_name}</strong>
                 </div>
                 <div>
                   Cantidad: {item.quantity}
@@ -85,7 +90,7 @@ class Pruebas extends React.Component {
                 <div>
                   Subtotal: ${item.price * item.quantity}
                 </div>
-                <button className='deleteProduct' onClick={() => this.handleRemoveProduct(item.id)}>
+                <button className='deleteProduct' onClick={() => this.handleRemoveProduct(item.product_id)}>
                   <i className="fa-solid fa-trash"></i>
                 </button>
               </li>
@@ -93,19 +98,11 @@ class Pruebas extends React.Component {
           </ul>
           <div id="totalContainer">
             <p>Total: ${total.toFixed(2)}</p>
-          </div>
-          <div>
-            <button id='buttonSale' onClick={this.handleGenerateSale}>Generar venta</button>
+            {showGenerateSaleButton && (
+              <button id='buttonSale' onClick={this.handleGenerateSale} disabled={total <= 0}>Generar venta</button>
+            )}
           </div>
         </div>
-        {/* Mostrar la información del cliente y del vendedor */}
-        {clientName && salesmanName && (
-          <div>
-            <p>Información de la venta:</p>
-            <p>Cliente: {clientName}</p>
-            <p>Vendedor: {salesmanName}</p>
-          </div>
-        )}
       </div>
     );
   }
