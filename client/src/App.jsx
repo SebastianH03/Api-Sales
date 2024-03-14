@@ -33,7 +33,7 @@ function App() {
     if (foundProduct) {
       const existingItemIndex = cartItems.findIndex((item) => item.id === foundProduct.product._id);
     
-      // Convertir la cantidad del input a un número, para calcular el total
+      // Convertir la cantidad del input a un número, para calcular el total.
       const quantityToAdd = parseInt(quantity, 10);
     
       if (existingItemIndex !== -1) {
