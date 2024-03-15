@@ -25,10 +25,11 @@ class Pruebas extends React.Component {
     });
   };
 
-  handleRemoveProduct = (productId) => {
+  handleRemoveProduct = (productId, quantity) => {
     const { cartItems, setCartItems } = this.props;
     const updatedCartItems = cartItems.filter(item => item.product_id !== productId);
-    // this.props.setTotalProducts(0);
+    console.log("values ", quantity)
+    this.props.setTotalProducts(this.props.totalProductsCar-quantity);
     setCartItems(updatedCartItems);
   };
 
@@ -96,7 +97,7 @@ class Pruebas extends React.Component {
                 <div>
                   Subtotal: ${item.price * item.quantity}
                 </div>
-                <button className='deleteProduct' onClick={() => this.handleRemoveProduct(item.product_id)}>
+                <button className='deleteProduct' onClick={() => this.handleRemoveProduct(item.product_id, item.quantity)}>
                   <i className="fa-solid fa-trash"></i>
                 </button>
               </li>

@@ -29,9 +29,6 @@ function App() {
         console.error('Error al buscar el producto:', error.message);
       }
     }
-    else{
-      setFoundProduct(-1);
-    }
   };
 
   const handleAddProduct = () => {
@@ -95,6 +92,9 @@ function App() {
       <div>
   {foundProduct ? (
     <div>
+      {foundProduct && (
+        <p id='foundProduct' >Producto encontrado: <strong>{foundProduct.product.name}</strong></p>
+      )} 
       <div className='shopButton'>
         <button id='addButton' onClick={handleAddProduct}>
           Agregar <i className="fa-brands fa-shopify"></i>

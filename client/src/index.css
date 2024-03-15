@@ -33,10 +33,10 @@ body{
 }
 
 .Text2{
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 25vh;
   font-size: 60px;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
@@ -95,8 +95,9 @@ input {
 }
 
 #addButton {
+  position: relative;
   width: 150px;
-  margin-top: 100px;
+  margin-top: 80px;
   padding: 15px 15px 15px 15px;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
@@ -132,7 +133,7 @@ input {
 
 #totalInput {
   width: 150px;
-  margin-top: 100px;
+  margin-top: 80px;
   margin-left: 40px; 
   padding: 15px 15px 15px 15px;
   font-family: "Roboto", sans-serif;
@@ -165,3 +166,12 @@ input {
   transition: .2s;
 }
 
+#foundProduct{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  top: 40px;
+
+}
