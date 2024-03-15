@@ -14,10 +14,16 @@
 
 .logoRegister{
   position: absolute;
-  margin-top: -430px;
-  margin-left: 110px;
+  margin-top: -480px;
+  margin-left: 300px;
   border-radius: 15px;
-  width: 200px;
+  width: 230px;
 }
 
+.textInput{
+  color: black;
+}
 
+#eye{
+  margin-top: 15px;
+}

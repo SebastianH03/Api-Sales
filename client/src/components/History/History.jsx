@@ -21,10 +21,10 @@ function History() {
   }, []); // Se ejecuta solo una vez al montar el componente
 
   return (
-    <>
+    <div className='divGeneral'>
       <Navbar />
       <div className='Titulo-container'>
-        <h1>Historial</h1>
+        <h1 id='titleHistory'>Historial</h1>
       </div>
       <div className='Load-container'>
         {/* <button id='Load' onClick={loadHistory}>Load</button> */}
@@ -41,7 +41,7 @@ function History() {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

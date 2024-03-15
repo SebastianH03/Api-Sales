@@ -44,25 +44,25 @@ function Registro(){
     <form onSubmit={pulsar} id='divForm'>
       <label>
         <i class="fa-solid fa-user"></i>
-        <input placeholder="nombre"type="text" id="nombre"></input>
+        <input className="textInput" placeholder="nombre"type="text" id="nombre"></input>
       </label>
       <label>
         <i class="fa-solid fa-envelope"></i>
-        <input placeholder="correo electronico"type="text" id="correoUser"></input>
+        <input className="textInput" placeholder="correo electronico"type="text" id="correoUser"></input>
       </label>
       <label>
         <i class="fa-sharp fa-solid fa-unlock"></i>
-        <input placeholder="contraseña" type={showPass ? "text" : 'password'} id="contraUser"></input>
+        <input className="textInput" placeholder="contraseña" type={showPass ? "text" : 'password'} id="contraUser"></input>
         {showPass ? <i class="fa-solid fa-eye" id='eye' onClick={()=> setShowPass(!showPass)}></i> : <i class="fa-sharp fa-solid fa-eye-slash" id='eye' onClick={()=> setShowPass(!showPass)}></i> }
       </label>
       <label>
         <i class="fa-sharp fa-solid fa-lock"></i>
-        <input placeholder="confirmas contraseña"type={showPass ? "text" : 'password'} id="contraUserV"></input>
+        <input className="textInput" placeholder="confirmas contraseña"type={showPass ? "text" : 'password'} id="contraUserV"></input>
         {showPass ? <i class="fa-solid fa-eye" id='eye' onClick={()=> setShowPass(!showPass)}></i> : <i class="fa-sharp fa-solid fa-eye-slash" id='eye' onClick={()=> setShowPass(!showPass)}></i> }
       </label>
       <label>
         <i class="fa-solid fa-address-book" id="rolUser"></i>
-        <input placeholder="role"></input>
+        <input className="textInput" placeholder="role"></input>
       </label>
       <p>{mensaje}</p>
       <a href='/' class="link">cancelar</a>

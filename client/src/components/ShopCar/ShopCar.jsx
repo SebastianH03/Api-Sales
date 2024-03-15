@@ -28,6 +28,7 @@ class Pruebas extends React.Component {
   handleRemoveProduct = (productId) => {
     const { cartItems, setCartItems } = this.props;
     const updatedCartItems = cartItems.filter(item => item.product_id !== productId);
+    // this.props.setTotalProducts(0);
     setCartItems(updatedCartItems);
   };
 
@@ -47,16 +48,17 @@ class Pruebas extends React.Component {
     });
     console.log("Nombre del cliente:", clientName);
     console.log("Nombre del vendedor:", salesmanName);
-  
+    
     // Generar venta
     const data = { salesInfo: this.props.cartItems, salesman: salesmanName, client: clientName };
     const stockData = this.props;
+    
     console.log("datos de la venta", stockData)
     axios.post("http://localhost:3900/sales", data)
       .then((response) => {
         alert("Venta generada correctamente :)", response);
         this.props.setCartItems([]);
-        
+        this.props.setTotalProducts(0);
       })
       .catch((error) => {
         alert("Datos incorrectos, intente nuevamente :(", error);
@@ -68,10 +70,14 @@ class Pruebas extends React.Component {
     const { cartItems, total } = this.props;
     const saleTotal = total;
     const showGenerateSaleButton = saleTotal > 0;
+    const totalProductsCar = this.props.totalProductsCar 
     return (
       <div id='divPruebas'>
         <button onClick={this.handleCartClick}>
           <i id='iconoShopify' className="fa-brands fa-shopify"></i>
+          <div id='circle' style={{ cursor: 'default', pointerEvents: 'none' }}>
+            <p>{totalProductsCar}</p>
+          </div>
         </button>
         <div id='cartDropdown'>
           <p id='saleTittle'>Venta</p>

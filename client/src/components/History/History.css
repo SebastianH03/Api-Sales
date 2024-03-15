@@ -1,6 +1,8 @@
+
+
 .history-container{
     width: 70%; 
-    height: 400px; 
+    height: 600px; 
     margin: 0 auto;
     overflow-y: auto;
     padding: 30px;
@@ -23,9 +25,6 @@
     align-items: center;
 }
 
-.Titulo{
-
-}
 
 #Load {
     width: 150px; 
@@ -45,3 +44,15 @@
     box-shadow: 14px 7px 8px rgba(0, 0, 0, 0.2);
   }
   
+.divGeneral{
+    position: relative;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(44,106,198,1) 47%, rgba(9,9,121,1) 100%, rgba(150,167,227,1) 100%);
+    height: 100vh;
+}
+
+#titleHistory{
+    font-size: 40px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+}

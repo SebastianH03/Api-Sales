@@ -12,7 +12,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isCartOpen, setIsCartOpen] = useState(false); 
-  const [totalProducts, setTotalProduct] = useState(0); 
+  const [totalProducts, setTotalProducts] = useState(0); 
 
   const handleSearch = async () => {
     setFoundProduct(null);
@@ -39,7 +39,7 @@ function App() {
       
       const existingItemIndex = cartItems.findIndex((item) => item.product_id === foundProduct.product._id);
       const quantityToAdd = parseInt(quantity, 10);
-    
+      setTotalProducts(totalProducts + quantityToAdd);
       if (existingItemIndex !== -1) {
         const updatedCartItems = [...cartItems];
         updatedCartItems[existingItemIndex].quantity += quantityToAdd;
@@ -51,20 +51,20 @@ function App() {
           product_name: foundProduct.product.name,
           price: foundProduct.product.price,
           quantity: quantityToAdd,
-          provider: foundProduct.product.provider
+          provider: foundProduct.product.provider,
         };
         setCartItems([...cartItems, newItem]);
-        setTotalProduct(2);
       }
       setQuantity(1);
-      setTotalProduct(totalProducts + quantityToAdd);
     }
   };
+  
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
   return (
+    
     <div className={`App ${isCartOpen ? 'cart-open' : ''}`}>
       <Navbar />
       <Pruebas
@@ -72,10 +72,9 @@ function App() {
       setCartItems={setCartItems}
       total={calculateTotal()}
       setIsCartOpen ={setIsCartOpen}
+      totalProductsCar = {totalProducts}
+      setTotalProducts = {setTotalProducts}
       />
-      <div id='circle' style={{ cursor: 'default', pointerEvents: 'none' }}>
-        <p>{totalProducts}</p>
-      </div>
       <div className='blueRectangle' >
         <p className='Text' >Encuentra el producto que necesitas</p>
         <div className="search-container">
