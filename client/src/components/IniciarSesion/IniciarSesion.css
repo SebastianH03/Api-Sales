@@ -24,7 +24,7 @@ form {
 
 .logo {
   position: absolute;
-  margin-top: -330px;
+  margin-top: -360px;
   margin-left: 105px;
   border-radius: 15px;
   width: 200px;
@@ -61,21 +61,19 @@ form label input::placeholder {
 
 
 form .link {
-  position: relative;
-  top: 20px;
   color:black;
-  margin-bottom: 15px;
+  margin-bottom: 3px;
+  margin-top: 30px;
   transition: .6s;
 }
 
 form .link:hover {
   font-size: 17px;
-  color: white;
 }
 
 form button {
   position: relative;
-  top: 65px;
+  top: 40px;
   color: #a0a0a0;
   border: none;
   background: black;
@@ -131,3 +129,4 @@ form button:hover{
     box-shadow: none;
   }
 }
+

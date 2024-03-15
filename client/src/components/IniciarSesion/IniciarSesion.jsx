@@ -67,7 +67,7 @@ function IniciarSesion() {
         </label>
         <p>{mensaje}</p>
         <a href='#' className="link">¿Has olvidado tu contraseña?</a>
-        <div>
+        <div className='linksIniciar'>
           <a href='/Registro' className="link">Crear cuenta</a>  <a href='/' className="link">Cancelar</a>
         </div>
         <div id='googleDiv'>
