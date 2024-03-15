@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ventas.css';
-import Card from '../Card/Card.jsx'; // Asegúrate de importar el componente
+import Card from '../CardSale/CardSale.jsx'; // Asegúrate de importar el componente
 import Navbar from '../Navbar/Navbar.jsx';
 import axios from 'axios';
 
@@ -35,8 +35,8 @@ function History() {
             <Card
               key={index}
               date={item.date}
-              event={item.quantity}
-              coleccion={item.product_name}
+              event={item.client}
+              coleccion={item.salesman}
             />
           ))}
         </div>
