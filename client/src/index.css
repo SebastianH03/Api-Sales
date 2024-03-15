@@ -6,6 +6,7 @@
 body{
   background: #FAFBFF;
   color: black;
+  transition: 1s;
 }
 
 
@@ -99,14 +100,15 @@ input {
   padding: 15px 15px 15px 15px;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  background-color: #B0B2AF;
+  background-color: #838383;
   border-radius: 30px;
   color: white;
-  transition: .8s;
+  transition: .6s;
+  
 }
 
 #addButton:hover{
-  box-shadow: inset 250px 0 0px 0px #28b41b,
+  box-shadow: inset 180px 0 0px 0px #28b41b,
   14px 7px 10px rgba(0,0,0,0.8);;
 }
 
@@ -137,7 +139,6 @@ input {
   font-size: 16px;
   background-color: #1B65B4;
   border-radius: 30px;
-  border: 2px solid black;
   color: white;
   cursor: default;
   text-align: center;
@@ -156,4 +157,24 @@ input {
   align-items: center;
   font-size: 20px;
   color: red;
+}
+
+.App.cart-open {
+  background-color: rgba(0, 0, 0, 0.3); 
+  
+  transition: .2s;
+}
+
+#circle{
+  position: absolute;
+  background-color: #28b41b;
+  border-radius: 15px;
+  width: 25px;
+  right: 0px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+  margin-right: 2px;
 }
