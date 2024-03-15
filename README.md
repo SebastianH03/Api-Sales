@@ -38,3 +38,49 @@ Ejecutar mongod.exe especificando la ruta de la carpeta data: mongod.exe -dbpath
 Se comprobará un correcto funcionamiento, si la terminal se presenta un mensaje que indique: "Conectado correctamente a la base de datos".
 
 #### Funcionalidades
+
+##### CRUD
+
+Todas las colecciones, menos la colección history, cuentan con sus métodos CRUD.
+A continuación, se va a presentar la forma correcta realizar las solicitudes desde postman:
+
+##### Rutas
+
+1. Customer: http://localhost:3900/Customer/ (tanto, POST, DEL, PUT y GET, cuentan con la misma dirección, si se desea una búsqueda por ID, agregar el ID a la ruta: http://localhost:3900/Customer/<id>
+2. Sales: http://localhost:3900/sales/
+3. Stock: http://localhost:3900/Stock/
+4. Suppliers: http://localhost:3900/Suppliers/
+5. Users: http://localhost:3900/Users/ (Para aplicar la generación de un informe de vendedor, utilizar la ruta http://localhost:3900/Users/name/<nombreDelVendedor>)
+
+##### Método POST y PUT
+
+Los métodos post y put, utilizados para crear y editar documentos en la base de datos, tienen su propia forma de creación desde POSTMAN. Para utilizarlo, se recomienda utilizar el body, con x-www-form-urlencoded.
+
+###### Colecciones Customer, Suppliers y Users
+
+![image](https://github.com/SebastianH03/Api-Sales/assets/85850681/036b3347-d938-4995-b63b-897e50fb05e2)
+
+###### Colección Stock
+
+![image](https://github.com/SebastianH03/Api-Sales/assets/85850681/01af5fb1-ee69-4755-afa1-71cd2823df96)
+
+###### Colección Sales
+
+La creación de una venta ya se encuentra implementada en el front-end, sin embargo, también es posible generarla por medio de POSTMAN.
+
+![image](https://github.com/SebastianH03/Api-Sales/assets/85850681/229d6bc4-7268-487e-b66d-8c7a35cfd270)
+
+###### Recomendación Final.
+
+La búsqueda del producto desde la página principal se usa con el id del Stock al cual pertenece el producto.
+
+
+
+
+
+
+
+
+
+
+
