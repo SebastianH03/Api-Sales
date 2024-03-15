@@ -14,7 +14,7 @@ function Navbar() {
         </LogoAndName>
         <Nav>
           <a href='/historial'>Historial</a>
-          <a href='/Ventas'>Ventas</a>
+          <a href='/ventas'>Ventas</a>
           <a href='/Proveedores'>Proveedores</a>
           <a href='/iniciarSesion'>Iniciar sesion</a>
         </Nav>
