@@ -3,6 +3,11 @@
 ### **Descripción**
 
 Este proyecto es un entregable para la materia de procesos y desarrollo de software. Tiene un propósito totalmente educativo y las funcionalidades se encuentran en desarrollo.
+Para este proyecto, decidimos aplicar una arquitectura MVC. (No fue aplicado en su totalidad).
+
+### MER
+
+![XYZ drawio](https://github.com/SebastianH03/Api-Sales/assets/85850681/575bfca5-fdb8-434c-aaa0-0851dbf62a9a)
 
 ### **Dependencias**
 
