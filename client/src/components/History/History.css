@@ -1,0 +1,47 @@
+.history-container{
+    width: 70%; 
+    height: 400px; 
+    margin: 0 auto;
+    overflow-y: auto;
+    padding: 30px;
+}
+
+.Titulo-container{
+    padding: 5px;
+    margin: 7px;
+    /* background-color: blue; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Load-container{
+    padding: 5px;
+    margin: 7px;
+    /* background-color: blue; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Titulo{
+
+}
+
+#Load {
+    width: 150px; 
+    margin: 10px;
+    padding: 15px;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    background-color: #1B65B4;
+    border-radius: 30px;
+    color: #a0a0a0;
+    transition: .4s;
+  }
+  
+  #Load:hover{
+    background-color: #008FD4;
+    color: white;
+    box-shadow: 14px 7px 8px rgba(0, 0, 0, 0.2);
+  }
+  
