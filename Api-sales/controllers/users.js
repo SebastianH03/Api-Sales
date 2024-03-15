@@ -1,7 +1,7 @@
 //dependencias
 const validator = require("validator");
 const Users = require("../models/Users");
-
+const { generateUserReport } = require("../services/pdfUserReport");
 
 
 const create = (req, res) => {
@@ -158,10 +158,25 @@ const edit_by_id = (req, resp) => {
             error: error.message
         });
     })
-
-    
-
 }
+
+const generateReport_by_name = async (req, res) => {
+    const {name} = req.params;
+    try{
+        const pdfContent = await generateUserReport(name);
+        //Indicar que es un archivo de respuesta
+        res.setHeader("Content-disposition", "attachment; filename=user_report.pdf");
+        res.setHeader("Content-type", "application/pdf");
+        pdfContent.pipe(res);
+    }catch(error){
+        return res.status(500).json({
+            status: "error",
+            message: error.message
+        })
+    }
+}
+
+
 
 
 module.exports = {
@@ -169,5 +184,6 @@ module.exports = {
     read,
     read_by_id,
     del_by_id,
-    edit_by_id
+    edit_by_id,
+    generateReport_by_name
 }

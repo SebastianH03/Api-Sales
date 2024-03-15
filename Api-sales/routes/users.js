@@ -18,4 +18,7 @@ router.delete("/:id", UsersController.del_by_id);
 //Editar
 router.put("/:id", UsersController.edit_by_id);
 
+//generar reporte por nombre
+router.get("/name/:name", UsersController.generateReport_by_name);
+
 module.exports = router;
