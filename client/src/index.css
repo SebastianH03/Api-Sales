@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body{
+  background: #FAFBFF;
+  color: black;
+  transition: 1s;
+}
+
+
+.blueRectangle {
+  background-image: url("./fondoAzul.avif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /*background-color: #043F6A;*/
+  padding: 18vh;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+}
+
+.Text {
+  font-size: 40px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.Text2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  letter-spacing:-0.05ch;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+  width: 620px;
+  padding: 15px;
+  margin-top: 10px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  border-radius: 30px;
+  color: black;
+}
+
+#button1 {
+  width: 150px;
+  margin-left: 20px; 
+  margin-top: 10px;
+  padding: 15px 15px 15px 40px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  background-color: #1B65B4;
+  border-radius: 30px;
+  color: #a0a0a0;
+  transition: .4s;
+}
+
+#button1:hover{
+  background-color: #008FD4;
+  color: white;
+  box-shadow: 14px 7px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-button {
+  position: relative;
+}
+
+.search-button:hover .search-icon{
+  color: white;
+}
+
+.search-icon {
+  position: absolute;
+  left: 55px;
+  top: 46%;
+  color: #a0a0a0;
+  transition: .4s;
+}
+
+#addButton {
+  position: relative;
+  width: 150px;
+  margin-top: 80px;
+  padding: 15px 15px 15px 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  background-color: #838383;
+  border-radius: 30px;
+  color: white;
+  transition: .6s;
+  
+}
+
+#addButton:hover{
+  box-shadow: inset 180px 0 0px 0px #28b41b,
+  14px 7px 10px rgba(0,0,0,0.8);;
+}
+
+#delButton {
+  width: 150px;
+  margin-left: 40px; 
+  margin-top: 100px;
+  padding: 15px 15px 15px 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  background-color: #B0B2AF;
+  border-radius: 30px;
+  color: white;
+  transition: .8s;
+}
+
+#delButton:hover{
+  box-shadow: inset 250px 0 0px 0px #b41b1b,
+  14px 7px 10px rgba(0,0,0,0.8);
+}
+
+#totalInput {
+  width: 150px;
+  margin-top: 80px;
+  margin-left: 40px; 
+  padding: 15px 15px 15px 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  background-color: #1B65B4;
+  border-radius: 30px;
+  color: white;
+  cursor: default;
+  text-align: center;
+}
+
+.shopButton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#invalidId{
+  margin-top: 128px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: red;
+}
+
+.App.cart-open {
+  background-color: rgba(0, 0, 0, 0.3); 
+  height: 100vh;
+  transition: .2s;
+}
+
+#foundProduct{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  top: 40px;
+
+}
