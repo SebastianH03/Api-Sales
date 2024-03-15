@@ -16,7 +16,7 @@ function Navbar() {
           <a href='/historial'>Historial</a>
           <a href='/Ventas'>Ventas</a>
           <a href='/Proveedores'>Proveedores</a>
-          <a href='/IniciarSesion'>Iniciar sesion</a>
+          <a href='/iniciarSesion'>Iniciar sesion</a>
         </Nav>
       </Navb2>
 
@@ -93,5 +93,4 @@ a:hover:after{
   width: 99%;
 }
 `
-
 export default Navbar

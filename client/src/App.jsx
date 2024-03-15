@@ -11,6 +11,8 @@ function App() {
   const [foundProduct, setFoundProduct] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const [isCartOpen, setIsCartOpen] = useState(false); 
+  const [totalProducts, setTotalProducts] = useState(0); 
 
   const handleSearch = async () => {
     setFoundProduct(null);
@@ -31,41 +33,47 @@ function App() {
 
   const handleAddProduct = () => {
     if (foundProduct) {
-      const existingItemIndex = cartItems.findIndex((item) => item.id === foundProduct.product._id);
-      // Convertir la cantidad del input a un número, para calcular el total.
+      
+      const existingItemIndex = cartItems.findIndex((item) => item.product_id === foundProduct.product._id);
       const quantityToAdd = parseInt(quantity, 10);
-    
+      setTotalProducts(totalProducts + quantityToAdd);
       if (existingItemIndex !== -1) {
-        // Si el producto ya está en el carrito, actualiza la cantidad
         const updatedCartItems = [...cartItems];
         updatedCartItems[existingItemIndex].quantity += quantityToAdd;
         setCartItems(updatedCartItems);
       } else {
-        // Si el producto no está en el carrito, se agrega
         const newItem = {
           stock_id: stock_id,
           product_id: foundProduct.product._id,
           product_name: foundProduct.product.name,
-          price: foundProduct.product.price || 0,
+          price: foundProduct.product.price,
           quantity: quantityToAdd,
+          provider: foundProduct.product.provider,
         };
         setCartItems([...cartItems, newItem]);
       }
-      
-      setFoundProduct(null);
       setQuantity(1);
     }
   };
+  
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
-
   return (
-    <div>
+    
+    <div className={`App ${isCartOpen ? 'cart-open' : ''}`}>
       <Navbar />
-      <div className='blueRectangle'>
-        <h1 className='Text'>Encuentra el producto que necesitas</h1>
+      <Pruebas
+      cartItems={cartItems}
+      setCartItems={setCartItems}
+      total={calculateTotal()}
+      setIsCartOpen ={setIsCartOpen}
+      totalProductsCar = {totalProducts}
+      setTotalProducts = {setTotalProducts}
+      />
+      <div className='blueRectangle' >
+        <p className='Text' >Encuentra el producto que necesitas</p>
         <div className="search-container">
           <input
             type="text"
@@ -75,7 +83,7 @@ function App() {
           />
           <div className='search-button'>
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
-            <button id='button1' onClick={handleSearch}>
+            <button id='button1' onClick={handleSearch} >
               Buscar
             </button>
           </div>
@@ -84,6 +92,9 @@ function App() {
       <div>
   {foundProduct ? (
     <div>
+      {foundProduct && (
+        <p id='foundProduct' >Producto encontrado: <strong>{foundProduct.product.name}</strong></p>
+      )} 
       <div className='shopButton'>
         <button id='addButton' onClick={handleAddProduct}>
           Agregar <i className="fa-brands fa-shopify"></i>
@@ -93,7 +104,7 @@ function App() {
           type="number"
           placeholder="Cantidad"
           value={quantity}
-          onChange={(e) => setQuantity(e.target.value)} //cambiar cantidad con las flechas
+          onChange={(e) => setQuantity(e.target.value)}
         />
       </div>
     </div>
@@ -105,11 +116,6 @@ function App() {
   )}
   <h1 className='Text2'>Más que productos, experiencias</h1>
 </div>
-<Pruebas
-      cartItems={cartItems}
-      setCartItems={setCartItems}
-      total={calculateTotal()}
-    />
     </div>
   );
 }

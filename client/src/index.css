@@ -6,6 +6,7 @@
 body{
   background: #FAFBFF;
   color: black;
+  transition: 1s;
 }
 
 
@@ -35,7 +36,6 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 25vh;
   font-size: 60px;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
@@ -94,19 +94,21 @@ input {
 }
 
 #addButton {
+  position: relative;
   width: 150px;
-  margin-top: 100px;
+  margin-top: 80px;
   padding: 15px 15px 15px 15px;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  background-color: #B0B2AF;
+  background-color: #838383;
   border-radius: 30px;
   color: white;
-  transition: .8s;
+  transition: .6s;
+  
 }
 
 #addButton:hover{
-  box-shadow: inset 250px 0 0px 0px #28b41b,
+  box-shadow: inset 180px 0 0px 0px #28b41b,
   14px 7px 10px rgba(0,0,0,0.8);;
 }
 
@@ -130,14 +132,13 @@ input {
 
 #totalInput {
   width: 150px;
-  margin-top: 100px;
+  margin-top: 80px;
   margin-left: 40px; 
   padding: 15px 15px 15px 15px;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
   background-color: #1B65B4;
   border-radius: 30px;
-  border: 2px solid black;
   color: white;
   cursor: default;
   text-align: center;
@@ -156,4 +157,20 @@ input {
   align-items: center;
   font-size: 20px;
   color: red;
+}
+
+.App.cart-open {
+  background-color: rgba(0, 0, 0, 0.3); 
+  height: 100vh;
+  transition: .2s;
+}
+
+#foundProduct{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  top: 40px;
+
 }

@@ -1,45 +1,50 @@
 /* Pruebas.css */
-#divPruebas {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  position: absolute;
-  top: 100px;
-  right: 0;
+#divPruebas{
+  background-color: white;
 }
 
+
 #iconoShopify {
-  color: white;
-  font-size: 24px;
+  position: absolute;
+  top: 120px; /* Ajusta el valor de top según sea necesario */
+  right: 10px;
+  color: #73b4fa;
+  font-size: 34px;
   cursor: pointer;
-  margin-top: 20px;
-  margin-right: 20px;
+  z-index: 2;
 }
 
 #cartDropdown {
   position: absolute;
-  top: 60px;
-  background-color: white;
+  top: 80; /* Ajusta el valor de top según sea necesario */
+  right: 0px;
+  background-color: rgb(255, 255, 255, 0.6);
+  backdrop-filter: blur(5px);
   color: black;
   padding: 10px;
   width: 200px;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  height: 88vh;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity .3s ease;
+  z-index: 1;
 }
 
 #divPruebas.open #cartDropdown {
   opacity: 1;
 }
 
-.deleteProduct{
+
+
+.deleteProduct {
   color: red;
-  margin-right: 1000000px;
+  transition: .4s;
 }
 
-#buttonSale{
+.deleteProduct:hover {
+  font-size: 15px;
+}
+
+#buttonSale {
   background-color: rgb(57, 190, 57);
   border-radius: 15px;
   font-size: 15px;
@@ -47,7 +52,27 @@
   transition: .3s;
 }
 
-#buttonSale:hover{
+#buttonSale:hover {
   font-family: "Roboto", sans-serif;
   font-size: 18px;
+}
+
+#saleTittle {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+}
+
+
+#circle{
+  position: absolute;
+  background-color: #28b41b;
+  border-radius: 15px;
+  width: 25px;
+  right: 0px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+  margin-right: 2px;
 }
