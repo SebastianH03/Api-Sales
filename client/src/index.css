@@ -14,7 +14,6 @@ body{
   background-image: url("./fondoAzul.avif");
   background-repeat: no-repeat;
   background-size: cover;
-  /*background-color: #043F6A;*/
   padding: 18vh;
   color: white;
   text-align: center;
@@ -109,24 +108,6 @@ input {
 
 #addButton:hover{
   box-shadow: inset 180px 0 0px 0px #28b41b,
-  14px 7px 10px rgba(0,0,0,0.8);;
-}
-
-#delButton {
-  width: 150px;
-  margin-left: 40px; 
-  margin-top: 100px;
-  padding: 15px 15px 15px 15px;
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
-  background-color: #B0B2AF;
-  border-radius: 30px;
-  color: white;
-  transition: .8s;
-}
-
-#delButton:hover{
-  box-shadow: inset 250px 0 0px 0px #b41b1b,
   14px 7px 10px rgba(0,0,0,0.8);
 }
 
@@ -172,5 +153,4 @@ input {
   align-items: center;
   font-family: "Roboto", sans-serif;
   top: 40px;
-
 }

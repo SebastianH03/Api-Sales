@@ -1,10 +1,9 @@
-// App.js
 import React, { useState } from 'react';
 import Navbar from './components/Navbar/Navbar.jsx';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import Pruebas from './components/ShopCar/ShopCar.jsx';
+import ShopCart from './components/ShopCart/ShopCart.jsx';
 
 function App() {
   const [stock_id, setstock_id] = useState('');
@@ -64,7 +63,7 @@ function App() {
     
     <div className={`App ${isCartOpen ? 'cart-open' : ''}`}>
       <Navbar />
-      <Pruebas
+      <ShopCart
       cartItems={cartItems}
       setCartItems={setCartItems}
       total={calculateTotal()}

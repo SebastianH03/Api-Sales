@@ -1,35 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import './ventas.css';
-import Card from '../CardSale/CardSale.jsx'; // Asegúrate de importar el componente
+import './Sales.css';
+import Card from '../CardSale/CardSale.jsx'; 
 import Navbar from '../Navbar/Navbar.jsx';
 import axios from 'axios';
 
-function History() {
+function Sales() {
   const [sales, setSales] = useState([]);
 
   useEffect(() => {
-    async function loadHistory() {
+    async function loadSales() {
       try {
         const response = await axios.get('http://localhost:3900/sales/');
         setSales(response.data.sale);
       } catch (error) {
-        console.error('Error al cargar el historial:', error.message);
+        console.error('Error al cargar las ventas:', error.message);
       }
     }
 
-    loadHistory();
-  }, []); // Se ejecuta solo una vez al montar el componente
-
+    loadSales();
+  }, []);
   return (
     <div className='divGeneral'>
       <Navbar />
       <div className='Titulo-container'>
-        <h1 id='titleHistory'>Ventas</h1>
+        <h1 id='titleSales'>Ventas</h1>
       </div>
-      <div className='Load-container'>
-        {/* <button id='Load' onClick={loadHistory}>Load</button> */}
-      </div>
-      <div className="history-container">
+      <div className="sales-container">
         <div className="card-container">
           {sales.map((item, index) => (
             <Card
@@ -45,4 +41,4 @@ function History() {
   );
 }
 
-export default History;
+export default Sales;

@@ -1,0 +1,77 @@
+#shopCart{
+  background-color: white;
+}
+
+
+#iconoShopify {
+  position: absolute;
+  top: 120px;
+  right: 10px;
+  color: #73b4fa;
+  font-size: 34px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+#cartDropdown {
+  position: absolute;
+  top: 80;
+  right: 0px;
+  background-color: rgb(255, 255, 255, 0.6);
+  backdrop-filter: blur(5px);
+  color: black;
+  padding: 10px;
+  width: 200px;
+  height: 88vh;
+  opacity: 0;
+  transition: opacity .3s ease;
+  z-index: 1;
+}
+
+#shopCart.open #cartDropdown {
+  opacity: 1;
+}
+
+
+
+.deleteProduct {
+  color: red;
+  transition: .4s;
+}
+
+.deleteProduct:hover {
+  font-size: 15px;
+}
+
+#buttonSale {
+  background-color: rgb(57, 190, 57);
+  border-radius: 15px;
+  font-size: 15px;
+  padding: 5px;
+  transition: .3s;
+}
+
+#buttonSale:hover {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+}
+
+#saleTittle {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+}
+
+
+#circle{
+  position: absolute;
+  background-color: #28b41b;
+  border-radius: 15px;
+  width: 25px;
+  right: 0px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+  margin-right: 2px;
+}
